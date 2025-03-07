@@ -1,0 +1,24 @@
+version: '3.7' # Указывает версию Docker Compose
+
+services: # Начало секции с сервисами
+    db: # Определение сервиса базы данных
+        container_name: postgres # Имя контейнера для базы данных
+        image: postgres:15.2 # Используемый образ PostgreSQL версии 15.2
+        restart: always # Перезапускать контейнер всегда в случае сбоя
+        environment: # Переменные окружения для настройки базы данных
+            - POSTGRES_USER=${POSTGRES_USER} # Пользователь базы данных
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD} # Пароль пользователя базы данных
+            - POSTGRES_DB=${POSTGRES_DB} # Имя базы данных
+        ports: # Настройка портов
+            - ${POSTGRES_PORT}:${POSTGRES_PORT} # Проброс порта 5432 контейнера на порт 5433 хоста
+        volumes: # Настройка томов для хранения данных
+            - postgres_data:/var/lib/postgresql/data # Хранение данных PostgreSQL в томе postgres_data
+        networks: # Настройка сетей
+            - pantarei # Подключение к сети backend
+
+volumes: # Определение томов
+    postgres_data: # Том для хранения данных PostgreSQL
+    redis_data: # Том для хранения данных Redis
+
+networks: # Определение сетей
+    pantarei: # Сеть для внутреннего взаимодействия сервисов

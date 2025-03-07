@@ -1,0 +1,189 @@
+Linux pantareidiving 6.1.0-31-cloud-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.1.128-1 (2025-02-07) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+
+# Обновление пакетного менеджера
+sudo apt update
+sudo apt install curl gnupg2 lsb-release
+
+# Проверить, установлен ли файловый менеджер типа FAR
+dpkg -l | grep mc
+
+# Установка файлового менеджера типа FAR
+sudo apt install ms
+
+# Проверить, установлен ли PostgreSQL
+dpkg -l | grep postgresql
+
+# Установка PostgreSQL
+sudo apt install postgresql postgresql-contrib
+
+# Проверить состояние PostgreSQL
+sudo systemctl status postgresql
+
+# Зайти в приложение psql
+sudo -u postgres psql
+
+SELECT version();
+CREATE USER pantarei WITH PASSWORD 'HVW4f:-Bo94b2y';
+CREATE DATABASE pantarei;
+ALTER DATABASE pantarei OWNER TO pantarei;
+
+# Проверить какие есть пользователи
+\du
+
+# Проверить какие есть базы данных
+\list
+
+# Зайти под конкретным пользователем и паролем
+PGPASSWORD="HVW4f:-Bo94b2y" psql -U pantarei -h localhost
+
+# Создать роль
+CREATE ROLE pantarei;
+
+# Дать доступ
+GRANT CONNECT ON DATABASE pantarei TO pantarei;
+
+# Отнять доступ
+REVOKE CONNECT ON DATABASE postgres FROM pantarei;
+REVOKE CONNECT ON DATABASE template0 FROM pantarei;
+REVOKE CONNECT ON DATABASE template1 FROM pantarei;
+
+# На каком порту запущен PostgreSQL
+SHOW port;
+
+# Сделать текущей базу данных pantarei
+\c pantarei 
+
+# Посмотреть какие есть таблицы в текущей базе данных
+\dt
+
+# Запустить, Перезапустить, Остановить сервер postgres, получить статус
+sudo systemctl start postgresql
+sudo systemctl stop postgresql
+sudo systemctl restart postgresql
+sudo systemctl status postgresql
+
+# Скачать NodeJS 20 версии
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+
+#Установить NodeJS
+sudo apt install nodejs
+
+# Проверка, что установилось
+node -v
+npm -v
+
+# Создать директорию для проекта и перейти в нее
+sudo mkdir -p /var/www/pantarei.co.il
+cd /var/www/pantarei.co.il
+sudo chown -R www-data:www-data /var/www/pantarei.co.il
+sudo chmod -R 755 /var/www/pantarei.co.il
+
+
+# Теперь загрузить архив с данными в эту папку
+# Внимание, при использовании загрузчика из браузера файл загружается в домашнюю директорию.
+# Скопировать его в нужную не получается, так как не хватает прав.
+
+# Копируем файл с правами суперпользователя
+sudo cp ~/project.tar /var/www/pantarei.co.il/
+
+# Распакуем архив
+sudo tar -xf project.tar
+
+# Устанавливаем пакеты приложения
+sudo npm install
+
+# Теперь билдим проект
+sudo npm run build
+
+# Запускаем в режиме отладки
+sudo npm run start:dev
+
+# В другом терминале можно обратиться к моему адресу так:
+# В первом терминале можно будет видеть, как реагирует сервер.
+curl http://localhost:3000
+
+
+# Устанавливаем nginx
+sudo apt install nginx -y
+
+# Открыть конфиг
+sudo nano /etc/nginx/sites-available/pantarei.co.il
+
+server {
+    listen 80;
+    server_name pantarei.co.il www.pantarei.co.il 34.165.107.157;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+	
+	error_log /var/log/nginx/pantarei_error.log;
+    access_log /var/log/nginx/pantarei_access.log;
+}
+
+# Активировать конфиг
+sudo ln -s /etc/nginx/sites-available/pantarei.co.il /etc/nginx/sites-enabled/
+
+# Проверить конфигурацию
+sudo nginx -t
+
+# Если ошибок нет, перезапустить сервер
+sudo systemctl restart nginx
+
+
+# Настроить SSL
+#Установите Certbot (если еще не установлен)
+sudo apt install certbot python3-certbot-nginx -y
+
+# Запустите команду для получения сертификата:
+sudo certbot --nginx -d pantarei.co.il -d www.pantarei.co.il
+
+# Автообновление сертификатов
+sudo certbot renew --dry-run
+
+# Проверить работу ngnix
+sudo systemctl status nginx
+
+#Запуск через PM2: Для стабильной работы приложения в продакшн-среде стоит использовать #процесс-менеджер, например, PM2, который будет следить за вашим приложением и автоматически #перезапускать его в случае сбоя.
+
+# Установка
+sudo npm install pm2@latest -g
+
+# Запуск в продакшене
+pm2 start dist/main.js
+
+# Чтобы приложение запускалось автоматически при перезагрузке сервера, выполните:
+pm2 startup
+pm2 save
+
+
+
+
+# Проверка статусов
+sudo systemctl status nginx
+sudo systemctl status postgresql
+
+pm2 start main.js --name my-app
+pm2 stop main
+
+pm2 delete main
+
+pm2 status
+pm2 list
+pm2 logs
+
+pm2 flush # Очистить логи
+
+pm2 restart all
