@@ -14,7 +14,7 @@ export class CoursesGroupsController {
   // }
 
   @Get()
-  async findAll(@Query('expand') expand: string) {
+  public async findAll(@Query('expand') expand: string): Promise<CoursesGroup[]> {
     // Передача параметра ?expand=["courses", "prices"]
     let expandArray = [];
     try {
