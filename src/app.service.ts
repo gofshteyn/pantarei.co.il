@@ -2,9 +2,12 @@ import { Injectable, Logger } from '@nestjs/common';
 import { WebServiceClient } from '@maxmind/geoip2-node';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
+import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class AppService {
+
+  private prisma = new PrismaClient();
 
   private webServiceLient: WebServiceClient;
   private readonly supportedLanguages = ['ru', 'he', 'en'];
@@ -18,8 +21,8 @@ export class AppService {
     );
   }
 
-  public async detectLanguage(req: Request): Promise<string> {
-    Logger.log('Запустили процедуру определения языка.');
+  public async detectLocalization(req: Request): Promise<string> {
+    
     // Получаем заголовок Accept-Language
     const acceptLanguage = req.headers['accept-language']?.toLowerCase();
     if (acceptLanguage) {
@@ -28,18 +31,14 @@ export class AppService {
     };
 
     // Не удалось получить язык из заголовка, определяем по IP адресу.
+    const ipAddress = req.headers['x-forwarded-for']?.toString().split(',')[0].trim() ||
+      req.socket.remoteAddress || 'unknown';
+
+    if (ipAddress === 'unknown' || ipAddress.startsWith('127.') || ipAddress === '::1' || ipAddress.startsWith('::ffff:127.') || ipAddress === '127.0.0.1') {
+      return this.getDefaultLocalization();
+    };
+
     try {
-      const ipAddress = req.headers['x-forwarded-for']?.toString().split(',')[0].trim() ||
-        req.socket.remoteAddress || 'unknown';
-
-      if (ipAddress === 'unknown' || ipAddress === '::1' || ipAddress === '127.0.0.1') {
-        return 'en';
-      };
-
-      if (ipAddress.startsWith('127.') || ipAddress === '::1' || ipAddress.startsWith('::ffff:127.')) {
-        return 'en';
-      };
-
       const response = await this.webServiceLient.country(ipAddress);
       const isoCode = response?.country?.isoCode?.toUpperCase() || 'EN';
 
@@ -48,11 +47,20 @@ export class AppService {
 
     } catch (e) {
       Logger.error(e);
-      return 'en';
     };
 
     // Не удалось получить язык ни одним из методов.
-    Logger.warn(`Не удалось обнаружить язык пользователя.`);
-    return 'en';
+    Logger.warn(`Не удалось обнаружить язык пользователя (acceptLanguage: ${acceptLanguage}, IP: ${ipAddress}).`);
+    return this.getDefaultLocalization();
+  }
+
+  private async getDefaultLocalization(): Promise<string> {
+    const defaultLocalizationId = 'en';
+    const localization = await this.prisma.localization.findFirst({
+      where: { isDefault: true }
+    });
+    if (!localization)
+      Logger.warn(`В таблице localizations нет локализации, которая должна использоваться в качестве значения по умолчанию (возвращенное значение "${defaultLocalizationId}").`);
+    return localization?.languageId || defaultLocalizationId;
   }
 }

@@ -8,14 +8,12 @@ export class AppController {
 
   @Get()
   async home(@Req() req: Request, @Res() res: Response): Promise<void> {
-    Logger.log('Запрос главной страницы. Сейчас будет перенаправление.');
-    const lang = await this.appService.detectLanguage(req);
+    const lang = await this.appService.detectLocalization(req);
     return res.redirect(`/${lang}`);
   }
 
   @Get('ru')
   async ruHome(@Res() res: Response): Promise<void> {
-    Logger.log('Запрос русско-язычной страницы. Сейчас будет перенаправление.');
     return res.render(`home/index.ru.ejs`);
   }
 
@@ -31,7 +29,7 @@ export class AppController {
 
   @Get('*')
   async notFoundPage(@Req() req: Request, @Res() res: Response): Promise<void> {
-    const lang = await this.appService.detectLanguage(req);
+    const lang = await this.appService.detectLocalization(req);
     return res.render(`404/index.${lang}.ejs`);
   }
 }
