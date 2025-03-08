@@ -1,15 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Logger } from '@nestjs/common';
 import { ClientsPreordersService } from './clients-preorders.service';
 import { CreateClientsPreorderDto } from './dto/create-clients-preorder.dto';
 import { UpdateClientsPreorderDto } from './dto/update-clients-preorder.dto';
+import { AppService } from 'src/app.service';
+import { Request } from 'express';
 
 @Controller('api/clients-preorders')
 export class ClientsPreordersController {
-  constructor(private readonly clientsPreordersService: ClientsPreordersService) {}
+  constructor(
+    private readonly clientsPreordersService: ClientsPreordersService,
+    private readonly appService: AppService
+  ) {}
 
   @Post()
-  public async create(@Body() createClientsPreorderDto: CreateClientsPreorderDto) {
-    return await this.clientsPreordersService.create(createClientsPreorderDto);
+  public async create(@Body() createClientsPreorderDto: CreateClientsPreorderDto, @Req() req: Request) {
+    const localeId = await this.appService.detectLocalization(req);
+    return await this.clientsPreordersService.create(createClientsPreorderDto, localeId);
   }
 
   @Get()

@@ -11,7 +11,7 @@ export class ClientsPreordersService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  public async create(createClientsPreorderDto: CreateClientsPreorderDto) {
+  public async create(createClientsPreorderDto: CreateClientsPreorderDto, localeId: string) {
     
     let result;
     try {
@@ -21,7 +21,8 @@ export class ClientsPreordersService {
           phone: createClientsPreorderDto.phone,
           email: createClientsPreorderDto.email,
           productId: createClientsPreorderDto.productId,
-          isMediaRequired: createClientsPreorderDto.isMediaRequired
+          isMediaRequired: createClientsPreorderDto.isMediaRequired,
+          localeId: localeId
         },
         select: {
           id: true,
@@ -30,7 +31,8 @@ export class ClientsPreordersService {
           phone: true,
           email: true,
           productId: true,
-          isMediaRequired: true
+          isMediaRequired: true,
+          localeId: true
         }
       });
     } catch (e) {
