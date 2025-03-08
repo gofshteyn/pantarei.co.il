@@ -68,7 +68,7 @@ export class AppService {
 
   private async getDefaultLocalization(): Promise<string> {
     const defaultLocalizationId = 'en';
-    const localization = await this.prisma.localization.findFirst({
+    const localization = await this.prisma.locale.findFirst({
       where: { isDefault: true }
     });
     if (!localization)

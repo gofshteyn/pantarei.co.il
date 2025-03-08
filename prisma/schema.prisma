@@ -16,12 +16,12 @@ model Language {
   createdAt           DateTime      @default(now())  @map("created_at")
   updatedAt           DateTime      @updatedAt       @map("updated_at")
 
-  localizations    Localization[] // Связь с локализациями
+  locales    Locale[] // Связь с локализациями
 
   @@map("languages")
 }
 
-model Localization {
+model Locale {
   languageId  String   @db.Char(2)     @map("language_id") @id
   isDefault   Boolean  @default(false) @map("is_default")     
   createdAt   DateTime @default(now()) @map("created_at")     
@@ -29,7 +29,7 @@ model Localization {
 
   language    Language @relation(fields: [languageId], references: [id])
 
-  @@map("localizations")
+  @@map("locales")
 
   // Добавление уникального ограничения на сочетание languageId и isDefault
   @@unique([languageId, isDefault])  // Это будет гарантировать, что для одного языка можно иметь только одну локализацию по умолчанию

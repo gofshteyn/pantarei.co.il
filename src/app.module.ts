@@ -3,8 +3,8 @@ import { APP_FILTER } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { ApiModule } from './api/api.module';
 import { NotFoundFilter } from './common/filters/not-found.filter';
+import { LocalesModule } from './api/locales/locales.module';
 
 @Module({
   imports: [
@@ -12,7 +12,7 @@ import { NotFoundFilter } from './common/filters/not-found.filter';
       isGlobal: true,
       envFilePath: '.env'
     }),
-    ApiModule
+    LocalesModule
   ],
   controllers: [AppController],
   providers: [
