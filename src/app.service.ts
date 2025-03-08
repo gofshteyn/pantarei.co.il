@@ -22,7 +22,7 @@ export class AppService {
   }
 
   public async detectLocalization(req: Request): Promise<string> {
-    
+
     // Получаем заголовок Accept-Language
     const acceptLanguage = req.headers['accept-language']?.toLowerCase();
     if (acceptLanguage) {
@@ -61,6 +61,6 @@ export class AppService {
     });
     if (!localization)
       Logger.warn(`В таблице localizations нет локализации, которая должна использоваться в качестве значения по умолчанию (возвращенное значение "${defaultLocalizationId}").`);
-    return localization?.languageId || defaultLocalizationId;
+    return localization?.languageId.toLocaleLowerCase() || defaultLocalizationId;
   }
 }
