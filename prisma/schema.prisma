@@ -75,3 +75,34 @@ model Course {
 
   @@map("courses")
 }
+
+model ExcursionsGroup {
+  id                 String      @id @default(uuid()) @db.Char(36)
+  code               String?     @unique @db.VarChar(20)
+  displayName        String      @map("display_name") @db.VarChar(100)
+  displayNameLocales Json?       @map("display_name_locales")
+  position           Int         @default(0)
+  createdAt          DateTime    @default(now()) @map("created_at")
+  updatedAt          DateTime?   @updatedAt @map("updated_at")
+  deletedAt          DateTime?   @map("deleted_at") @db.Timestamp
+  excursions         Excursion[] @relation("GroupExcursions")
+
+  @@map("excursions_groups")
+}
+
+model Excursion {
+  id                 String           @id @default(uuid()) @db.Char(36)
+  code               String?          @unique @db.VarChar(20)
+  excursionGroupId   String?          @db.Char(36)
+  excursionsGroup    ExcursionsGroup? @relation("GroupExcursions", fields: [excursionGroupId], references: [id])
+  displayName        String           @map("display_name") @db.VarChar(100)
+  displayNameLocales Json?            @map("display_name_locales")
+  description        String?          @db.Text
+  position           Int              @default(0)
+  imageUrl           String?          @map("image_url") @db.VarChar(255)
+  createdAt          DateTime         @default(now()) @map("created_at")
+  updatedAt          DateTime?        @updatedAt @map("updated_at")
+  deletedAt          DateTime?        @map("deleted_at") @db.Timestamp
+
+  @@map("excursions")
+}
