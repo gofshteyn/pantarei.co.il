@@ -5,6 +5,8 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { NotFoundFilter } from './common/filters/not-found.filter';
 import { LocalesModule } from './api/locales/locales.module';
+import { LanguagesModule } from './api/languages/languages.module';
+import { CurrenciesModule } from './api/currencies/currencies.module';
 
 @Module({
   imports: [
@@ -12,7 +14,9 @@ import { LocalesModule } from './api/locales/locales.module';
       isGlobal: true,
       envFilePath: '.env'
     }),
-    LocalesModule
+    LocalesModule,
+    LanguagesModule,
+    CurrenciesModule
   ],
   controllers: [AppController],
   providers: [
