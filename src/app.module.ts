@@ -7,6 +7,8 @@ import { NotFoundFilter } from './common/filters/not-found.filter';
 import { LocalesModule } from './api/locales/locales.module';
 import { LanguagesModule } from './api/languages/languages.module';
 import { CurrenciesModule } from './api/currencies/currencies.module';
+import { PrismaService } from './prisma/prisma.service';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -16,7 +18,8 @@ import { CurrenciesModule } from './api/currencies/currencies.module';
     }),
     LocalesModule,
     LanguagesModule,
-    CurrenciesModule
+    CurrenciesModule,
+    PrismaModule
   ],
   controllers: [AppController],
   providers: [
@@ -24,7 +27,8 @@ import { CurrenciesModule } from './api/currencies/currencies.module';
     {
       provide: APP_FILTER,
       useClass: NotFoundFilter,
-    }
+    },
+    PrismaService
   ]
 })
 export class AppModule {}

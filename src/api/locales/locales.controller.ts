@@ -7,28 +7,28 @@ import { UpdateLocaleDto } from './dto/update-locale.dto';
 export class LocalesController {
   constructor(private readonly localesService: LocalesService) {}
 
-  @Post()
-  create(@Body() createLocaleDto: CreateLocaleDto) {
-    return this.localesService.create(createLocaleDto);
-  }
+  // @Post()
+  // create(@Body() createLocaleDto: CreateLocaleDto) {
+  //   return this.localesService.create(createLocaleDto);
+  // }
 
   @Get()
   findAll() {
     return this.localesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.localesService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.localesService.findOne(+id);
+  // }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLocaleDto: UpdateLocaleDto) {
-    return this.localesService.update(+id, updateLocaleDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateLocaleDto: UpdateLocaleDto) {
+  //   return this.localesService.update(+id, updateLocaleDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.localesService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.localesService.remove(+id);
+  // }
 }

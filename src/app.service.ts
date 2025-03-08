@@ -3,18 +3,20 @@ import { WebServiceClient } from '@maxmind/geoip2-node';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import { PrismaClient } from '@prisma/client';
+import { PrismaService } from './prisma/prisma.service';
 
 @Injectable()
 export class AppService {
-
-  private prisma = new PrismaClient();
 
   private webServiceLient: WebServiceClient;
   private readonly supportedLanguages = ['ru', 'he', 'en'];
   private readonly russianSpeakingCountries = new Set(['RU', 'UA', 'BY']);
   private readonly hebrewSpeakingCountries = new Set(['IL']);
 
-  constructor(private readonly configService: ConfigService) {
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly prismaService: PrismaService
+  ) {
     this.webServiceLient = new WebServiceClient(
       this.configService.get<string>('MAXMIND_ACCOUNT_ID'),
       this.configService.get<string>('MAXMIND_LICENSE_KEY')
@@ -68,7 +70,7 @@ export class AppService {
 
   private async getDefaultLocalization(): Promise<string> {
     const defaultLocalizationId = 'en';
-    const localization = await this.prisma.locale.findFirst({
+    const localization = await this.prismaService.locale.findFirst({
       where: { isDefault: true }
     });
     if (!localization)
