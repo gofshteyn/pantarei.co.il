@@ -14,7 +14,7 @@ model Language {
   displayNameLocales  Json?                          @map("display_name_locales")
   imageUrl            String?       @db.VarChar(255) @map("image_url")
   createdAt           DateTime      @default(now())  @map("created_at")
-  updatedAt           DateTime      @updatedAt       @map("updated_at")
+  updatedAt           DateTime?     @updatedAt       @map("updated_at")
 
   locales    Locale[] // Связь с локализациями
 
@@ -22,10 +22,10 @@ model Language {
 }
 
 model Locale {
-  languageId  String   @db.Char(2)     @map("language_id") @id
-  isDefault   Boolean  @default(false) @map("is_default")     
-  createdAt   DateTime @default(now()) @map("created_at")     
-  updatedAt   DateTime @updatedAt      @map("updated_at")
+  languageId  String    @db.Char(2)     @map("language_id") @id
+  isDefault   Boolean   @default(false) @map("is_default")     
+  createdAt   DateTime  @default(now()) @map("created_at")     
+  updatedAt   DateTime? @updatedAt      @map("updated_at")
 
   language    Language @relation(fields: [languageId], references: [id])
 
@@ -36,12 +36,12 @@ model Locale {
 }
 
 model Currency {
-  id                  String   @id @db.VarChar(4)   
-  displayName         String   @db.VarChar(100)   @map("display_name")  
+  id                  String    @id @db.VarChar(4)   
+  displayName         String    @db.VarChar(100)   @map("display_name")  
   displayNameLocales  Json?                       @map("display_name_locales") 
-  symbol              String?  @db.Char(1)          
-  createdAt           DateTime @default(now())    @map("created_at")  
-  updatedAt           DateTime @updatedAt         @map("updated_at")  
+  symbol              String?   @db.Char(1)          
+  createdAt           DateTime  @default(now())    @map("created_at")  
+  updatedAt           DateTime? @updatedAt         @map("updated_at")  
 
   @@map("currencies")  // Название таблицы в базе данных
 }

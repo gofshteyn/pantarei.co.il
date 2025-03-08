@@ -7,28 +7,28 @@ import { UpdateLanguageDto } from './dto/update-language.dto';
 export class LanguagesController {
   constructor(private readonly languagesService: LanguagesService) {}
 
-  @Post()
-  create(@Body() createLanguageDto: CreateLanguageDto) {
-    return this.languagesService.create(createLanguageDto);
-  }
+  // @Post()
+  // create(@Body() createLanguageDto: CreateLanguageDto) {
+  //   return this.languagesService.create(createLanguageDto);
+  // }
 
   @Get()
   findAll() {
     return this.languagesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.languagesService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.languagesService.findOne(+id);
+  // }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLanguageDto: UpdateLanguageDto) {
-    return this.languagesService.update(+id, updateLanguageDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateLanguageDto: UpdateLanguageDto) {
+  //   return this.languagesService.update(+id, updateLanguageDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.languagesService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.languagesService.remove(+id);
+  // }
 }

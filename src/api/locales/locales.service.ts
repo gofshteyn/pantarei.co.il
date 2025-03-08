@@ -1,15 +1,28 @@
 import { Injectable } from '@nestjs/common';
-import { CreateLocaleDto } from './dto/create-locale.dto';
-import { UpdateLocaleDto } from './dto/update-locale.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { plainToClass, plainToInstance } from 'class-transformer';
+import Locale from './entities/locale.entity';
 
 @Injectable()
 export class LocalesService {
+
+  constructor (private readonly prismaService: PrismaService) {}
+
   // create(createLocaleDto: CreateLocaleDto) {
   //   return 'This action adds a new locale';
   // }
 
-  findAll() {
-    return `This action returns all locales`;
+  async findAll(): Promise<Locale[]> {
+    const result = await this.prismaService.locale.findMany({
+      select: {
+        language: true,
+        isDefault: true
+      },
+      orderBy: {
+        languageId: 'asc'
+      }
+    });
+    return plainToInstance(Locale, result);
   }
 
   // findOne(id: number) {

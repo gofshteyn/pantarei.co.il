@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { LocalesService } from './locales.service';
 import { CreateLocaleDto } from './dto/create-locale.dto';
 import { UpdateLocaleDto } from './dto/update-locale.dto';
+import Locale from './entities/locale.entity';
 
 @Controller('api/locales')
 export class LocalesController {
@@ -13,7 +14,7 @@ export class LocalesController {
   // }
 
   @Get()
-  findAll() {
+  findAll(): Promise<Locale[]> {
     return this.localesService.findAll();
   }
 
