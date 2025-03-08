@@ -27,9 +27,9 @@ export class AppController {
     return res.render(`home/index.he.ejs`);
   }
 
-  @Get('*')
-  async notFoundPage(@Req() req: Request, @Res() res: Response): Promise<void> {
-    const lang = await this.appService.detectLocalization(req);
-    return res.render(`404/index.${lang}.ejs`);
-  }
+  // @Get('*')
+  // async notFoundPage(@Req() req: Request, @Res() res: Response): Promise<void> {
+  //   const lang = await this.appService.detectLocalization(req);
+  //   return res.render(`404/index.${lang}.ejs`);
+  // }
 }

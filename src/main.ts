@@ -5,6 +5,7 @@ import { join } from 'path';
 
 import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
+import { NotFoundFilter } from './common/filters/not-found.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
