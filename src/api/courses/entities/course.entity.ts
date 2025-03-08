@@ -17,10 +17,19 @@ export class Course {
     displayNameLocales: object;
 
     @Expose()
-    position: number;
+    subtitle: string;
+
+    @Expose()
+    subtitleLocales: object;
 
     @Expose()
     description: string;
+
+    @Expose()
+    descriptionLocales: object;
+
+    @Expose()
+    position: number;
 
     @Expose()
     imageUrl: string;
