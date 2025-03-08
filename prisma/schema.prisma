@@ -48,12 +48,30 @@ model Currency {
 model CoursesGroup {
   id                 String    @id @default(uuid()) @db.Char(36)
   code               String?   @unique @db.VarChar(20)
-  displayName        String    @map("display_name") @db.VarChar(255)
+  displayName        String    @map("display_name") @db.VarChar(100)
   displayNameLocales Json?     @map("display_name_locales")
   position           Int       @default(0)
   createdAt          DateTime  @default(now()) @map("created_at")
   updatedAt          DateTime? @updatedAt @map("updated_at")
   deletedAt          DateTime? @map("deleted_at") @db.Timestamp
+  courses            Course[]  @relation("GroupCourses")
 
   @@map("courses_groups")
+}
+
+model Course {
+  id                 String        @id @default(uuid()) @db.Char(36)
+  code               String?       @unique @db.VarChar(20)
+  courseGroupId      String?       @db.Char(36)
+  coursesGroup       CoursesGroup? @relation("GroupCourses", fields: [courseGroupId], references: [id])
+  displayName        String        @map("display_name") @db.VarChar(100)
+  displayNameLocales Json?         @map("display_name_locales")
+  description        String?       @db.Text
+  position           Int           @default(0)
+  imageUrl           String?       @map("image_url") @db.VarChar(255)
+  createdAt          DateTime      @default(now()) @map("created_at")
+  updatedAt          DateTime?     @updatedAt @map("updated_at")
+  deletedAt          DateTime?     @map("deleted_at") @db.Timestamp
+
+  @@map("courses")
 }

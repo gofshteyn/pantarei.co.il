@@ -1,13 +1,14 @@
 import { Exclude, Expose } from "class-transformer";
-import { Course } from "src/api/courses/entities/course.entity";
 
-
-export class CoursesGroup {
+export class Course {
     @Expose()
     id: string;
 
     @Expose()
     code: string;
+
+    @Expose()
+    courseGroupId: string;
 
     @Expose()
     displayName: string;
@@ -19,7 +20,10 @@ export class CoursesGroup {
     position: number;
 
     @Expose()
-    courses?: Course[];
+    description: string;
+
+    @Expose()
+    imageUrl: string;
 
     @Exclude()
     createdAt: Date;

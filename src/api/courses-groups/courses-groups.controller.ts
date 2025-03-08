@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Logger } from '@nestjs/common';
 import { CoursesGroupsService } from './courses-groups.service';
 import { CreateCoursesGroupDto } from './dto/create-courses-group.dto';
 import { UpdateCoursesGroupDto } from './dto/update-courses-group.dto';
@@ -14,8 +14,16 @@ export class CoursesGroupsController {
   // }
 
   @Get()
-  async findAll(): Promise<CoursesGroup[]> {
-    return await this.coursesGroupsService.findAll();
+  async findAll(@Query('expand') expand: string) {
+    // Передача параметра ?expand=["courses", "prices"]
+    let expandArray = [];
+    try {
+      expandArray = expand ? JSON.parse(expand) : [];
+    } catch (e) {
+      expandArray = [];
+      Logger.warn(`Пользователь передал параметр "expand" в неверном формате (${JSON.stringify(expand)}).`);
+    };
+    return await this.coursesGroupsService.findAll(expandArray);
   }
 
   // @Get(':id')

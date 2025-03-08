@@ -10,6 +10,7 @@ import { CurrenciesModule } from './api/currencies/currencies.module';
 import { PrismaService } from './prisma/prisma.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { CoursesGroupsModule } from './api/courses-groups/courses-groups.module';
+import { CoursesModule } from './api/courses/courses.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { CoursesGroupsModule } from './api/courses-groups/courses-groups.module'
     LanguagesModule,
     CurrenciesModule,
     PrismaModule,
-    CoursesGroupsModule
+    CoursesGroupsModule,
+    CoursesModule
   ],
   controllers: [AppController],
   providers: [

@@ -4,6 +4,7 @@ import { UpdateCoursesGroupDto } from './dto/update-courses-group.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CoursesGroup } from './entities/courses-group.entity';
 import { plainToInstance } from 'class-transformer';
+import { Course } from '../courses/entities/course.entity';
 
 @Injectable()
 export class CoursesGroupsService {
@@ -14,19 +15,31 @@ export class CoursesGroupsService {
     return 'This action adds a new coursesGroup';
   }
 
-  public async findAll() {
-    const result = await this.prismaService.coursesGroup.findMany({
-      select: {
-        id: true,
-        code: true,
-        displayName: true,
-        displayNameLocales: true,
-        position: true
+  public async findAll(expand?: string[]) {
+
+    const includeOptions: Record<string, boolean> = {};
+    includeOptions.courses = expand?.includes('courses');
+
+    let result = await this.prismaService.coursesGroup.findMany({
+      include: {
+        courses: true
       },
       orderBy: {
         position: 'asc'
       }
     });
+
+    // let nres;
+    // if (includeOptions.courses) {
+    //   nres = result.map(group => ({
+    //       ...group,
+    //       courses: plainToInstance(
+    //           Course, 
+    //           group.courses.map(({ courseGroupId, ...course }) => course) // Убираем courseGroupId
+    //       ).sort((a, b) => a.position - b.position),
+    //   }));
+    // }
+
     return plainToInstance(CoursesGroup, result);
   }
 
