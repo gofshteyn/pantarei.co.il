@@ -22,12 +22,13 @@ model Language {
 }
 
 model Locale {
-  languageId String    @id @map("language_id") @db.Char(2)
-  isDefault  Boolean   @default(false) @map("is_default")
-  createdAt  DateTime  @default(now()) @map("created_at")
-  updatedAt  DateTime? @updatedAt @map("updated_at")
-  deletedAt  DateTime? @map("deleted_at") @db.Timestamp
-  language   Language  @relation(fields: [languageId], references: [id])
+  languageId      String            @id @map("language_id") @db.Char(2)
+  isDefault       Boolean           @default(false) @map("is_default")
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime?         @updatedAt @map("updated_at")
+  deletedAt       DateTime?         @map("deleted_at") @db.Timestamp
+  language        Language          @relation(fields: [languageId], references: [id])
+  ClientsPreorder ClientsPreorder[]
 
   @@unique([languageId, isDefault]) // Это будет гарантировать, что для одного языка можно иметь только одну локализацию по умолчанию
   @@map("locales")
@@ -79,33 +80,33 @@ model Course {
   @@map("courses")
 }
 
-model ExcursionsGroup {
-  id                 String      @id @default(uuid()) @db.Char(36)
-  code               String?     @unique @db.VarChar(20)
-  displayName        String      @map("display_name") @db.VarChar(100)
-  displayNameLocales Json?       @map("display_name_locales")
-  position           Int         @default(0)
-  createdAt          DateTime    @default(now()) @map("created_at")
-  updatedAt          DateTime?   @updatedAt @map("updated_at")
-  deletedAt          DateTime?   @map("deleted_at") @db.Timestamp
-  excursions         Excursion[] @relation("GroupExcursions")
+model ClientsPreorder {
+  id               String         @id @default(uuid()) @map("id") @db.Uuid
+  registrationDate DateTime       @default(now()) @map("registration_date")
+  userId           String?        @map("user_id") @db.Uuid
+  displayName      String         @map("display_name") @db.VarChar(255)
+  phone            String?        @map("phone") @db.VarChar(15)
+  email            String?        @map("email") @db.VarChar(255)
+  productId        String         @map("product_id") @db.Uuid
+  localeId         String?        @map("locale_id") @db.Char(2)
+  isMediaRequired  Boolean        @default(false) @map("is_media_required")
+  status           PreorderStatus @default(pending) @map("status")
+  createdAt        DateTime       @default(now()) @map("created_at")
+  updatedAt        DateTime?      @updatedAt @map("updated_at")
+  deletedAt        DateTime?      @map("deleted_at")
 
-  @@map("excursions_groups")
+  // Связи с таблицами
+  locale Locale? @relation(fields: [localeId], references: [languageId])
+
+  @@map("clients_preorders")
 }
 
-model Excursion {
-  id                 String           @id @default(uuid()) @db.Char(36)
-  code               String?          @unique @db.VarChar(20)
-  excursionGroupId   String?          @db.Char(36)
-  excursionsGroup    ExcursionsGroup? @relation("GroupExcursions", fields: [excursionGroupId], references: [id])
-  displayName        String           @map("display_name") @db.VarChar(100)
-  displayNameLocales Json?            @map("display_name_locales")
-  description        String?          @db.Text
-  position           Int              @default(0)
-  imageUrl           String?          @map("image_url") @db.VarChar(255)
-  createdAt          DateTime         @default(now()) @map("created_at")
-  updatedAt          DateTime?        @updatedAt @map("updated_at")
-  deletedAt          DateTime?        @map("deleted_at") @db.Timestamp
+// Enum для статусов предзаказа
+enum PreorderStatus {
+  pending   @map("pending")
+  confirmed @map("confirmed")
+  cancelled @map("cancelled")
+  completed @map("completed")
 
-  @@map("excursions")
+  @@map("preorder_status")
 }
