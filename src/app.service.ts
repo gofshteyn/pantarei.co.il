@@ -35,6 +35,12 @@ export class AppService {
       req.socket.remoteAddress || 'unknown';
 
     if (ipAddress === 'unknown' || ipAddress.startsWith('127.') || ipAddress === '::1' || ipAddress.startsWith('::ffff:127.') || ipAddress === '127.0.0.1') {
+      Logger.warn(`Не удалось обнаружить язык пользователя. ${JSON.stringify({
+        acceptLanguage,
+        ipAddress,
+        url: req.originalUrl,
+        method: req.method
+      })}`);
       return this.getDefaultLocalization();
     };
 
@@ -50,7 +56,13 @@ export class AppService {
     };
 
     // Не удалось получить язык ни одним из методов.
-    Logger.warn(`Не удалось обнаружить язык пользователя (acceptLanguage: ${acceptLanguage}, IP: ${ipAddress}).`);
+    Logger.warn(`Не удалось обнаружить язык пользователя. ${JSON.stringify({
+      acceptLanguage,
+      ipAddress,
+      url: req.originalUrl,
+      method: req.method
+    })}`);
+    
     return this.getDefaultLocalization();
   }
 
