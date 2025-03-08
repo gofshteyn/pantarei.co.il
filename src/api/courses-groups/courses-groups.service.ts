@@ -21,24 +21,11 @@ export class CoursesGroupsService {
     includeOptions.courses = expand?.includes('courses');
 
     let result = await this.prismaService.coursesGroup.findMany({
-      include: {
-        courses: true
-      },
+      include: includeOptions,
       orderBy: {
         position: 'asc'
       }
     });
-
-    // let nres;
-    // if (includeOptions.courses) {
-    //   nres = result.map(group => ({
-    //       ...group,
-    //       courses: plainToInstance(
-    //           Course, 
-    //           group.courses.map(({ courseGroupId, ...course }) => course) // Убираем courseGroupId
-    //       ).sort((a, b) => a.position - b.position),
-    //   }));
-    // }
 
     return plainToInstance(CoursesGroup, result);
   }
