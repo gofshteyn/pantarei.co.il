@@ -8,40 +8,52 @@ datasource db {
 }
 
 model Language {
-  id                  String        @id @db.Char(2)
-  code                String?       @db.VarChar(3)
-  displayName         String        @db.VarChar(100) @map("display_name")
-  displayNameLocales  Json?                          @map("display_name_locales")
-  imageUrl            String?       @db.VarChar(255) @map("image_url")
-  createdAt           DateTime      @default(now())  @map("created_at")
-  updatedAt           DateTime?     @updatedAt       @map("updated_at")
-
-  locales    Locale[] // Связь с локализациями
+  id                 String    @id @db.Char(2)
+  code               String?   @db.VarChar(3)
+  displayName        String    @map("display_name") @db.VarChar(100)
+  displayNameLocales Json?     @map("display_name_locales")
+  imageUrl           String?   @map("image_url") @db.VarChar(255)
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime? @updatedAt @map("updated_at")
+  deletedAt          DateTime? @map("deleted_at") @db.Timestamp
+  locales            Locale[] // Связь с локализациями
 
   @@map("languages")
 }
 
 model Locale {
-  languageId  String    @db.Char(2)     @map("language_id") @id
-  isDefault   Boolean   @default(false) @map("is_default")     
-  createdAt   DateTime  @default(now()) @map("created_at")     
-  updatedAt   DateTime? @updatedAt      @map("updated_at")
+  languageId String    @id @map("language_id") @db.Char(2)
+  isDefault  Boolean   @default(false) @map("is_default")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime? @updatedAt @map("updated_at")
+  deletedAt  DateTime? @map("deleted_at") @db.Timestamp
+  language   Language  @relation(fields: [languageId], references: [id])
 
-  language    Language @relation(fields: [languageId], references: [id])
-
+  @@unique([languageId, isDefault]) // Это будет гарантировать, что для одного языка можно иметь только одну локализацию по умолчанию
   @@map("locales")
-
-  // Добавление уникального ограничения на сочетание languageId и isDefault
-  @@unique([languageId, isDefault])  // Это будет гарантировать, что для одного языка можно иметь только одну локализацию по умолчанию
 }
 
 model Currency {
-  id                  String    @id @db.VarChar(4)   
-  displayName         String    @db.VarChar(100)   @map("display_name")  
-  displayNameLocales  Json?                       @map("display_name_locales") 
-  symbol              String?   @db.Char(1)          
-  createdAt           DateTime  @default(now())    @map("created_at")  
-  updatedAt           DateTime? @updatedAt         @map("updated_at")  
+  id                 String    @id @db.VarChar(4)
+  displayName        String    @map("display_name") @db.VarChar(100)
+  displayNameLocales Json?     @map("display_name_locales")
+  symbol             String?   @db.Char(5)
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime? @updatedAt @map("updated_at")
+  deletedAt          DateTime? @map("deleted_at") @db.Timestamp
 
-  @@map("currencies")  // Название таблицы в базе данных
+  @@map("currencies") // Название таблицы в базе данных
+}
+
+model CoursesGroup {
+  id                 String    @id @default(uuid()) @db.Char(36)
+  code               String?   @unique @db.VarChar(20)
+  displayName        String    @map("display_name") @db.VarChar(255)
+  displayNameLocales Json?     @map("display_name_locales")
+  position           Int       @default(0)
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime? @updatedAt @map("updated_at")
+  deletedAt          DateTime? @map("deleted_at") @db.Timestamp
+
+  @@map("courses_groups")
 }
