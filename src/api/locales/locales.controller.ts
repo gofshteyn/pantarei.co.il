@@ -14,8 +14,8 @@ export class LocalesController {
   // }
 
   @Get()
-  findAll(): Promise<Locale[]> {
-    return this.localesService.findAll();
+  async findAll(): Promise<Locale[]> {
+    return await this.localesService.findAll();
   }
 
   // @Get(':id')

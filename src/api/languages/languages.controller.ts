@@ -15,7 +15,7 @@ export class LanguagesController {
 
   @Get()
   public async findAll(): Promise<Language[]> {
-    return this.languagesService.findAll();
+    return await this.languagesService.findAll();
   }
 
   // @Get(':id')

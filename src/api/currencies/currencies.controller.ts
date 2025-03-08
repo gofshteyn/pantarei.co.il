@@ -15,7 +15,7 @@ export class CurrenciesController {
 
   @Get()
   public async findAll(): Promise<Currency[]> {
-    return this.currenciesService.findAll();
+    return await this.currenciesService.findAll();
   }
 
   // @Get(':id')

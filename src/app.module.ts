@@ -9,6 +9,7 @@ import { LanguagesModule } from './api/languages/languages.module';
 import { CurrenciesModule } from './api/currencies/currencies.module';
 import { PrismaService } from './prisma/prisma.service';
 import { PrismaModule } from './prisma/prisma.module';
+import { CoursesGroupsModule } from './api/courses-groups/courses-groups.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { PrismaModule } from './prisma/prisma.module';
     LocalesModule,
     LanguagesModule,
     CurrenciesModule,
-    PrismaModule
+    PrismaModule,
+    CoursesGroupsModule
   ],
   controllers: [AppController],
   providers: [
