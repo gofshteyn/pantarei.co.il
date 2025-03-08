@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CreateCurrencyDto } from './dto/create-currency.dto';
 import { UpdateCurrencyDto } from './dto/update-currency.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { Currency } from './entities/currency.entity';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class CurrenciesService {
@@ -12,8 +14,13 @@ export class CurrenciesService {
   //   return 'This action adds a new currency';
   // }
 
-  findAll() {
-    return `This action returns all currencies`;
+  public async findAll(): Promise<Currency[]> {
+    const result = await this.prismaService.currency.findMany({
+      orderBy: {
+        id: 'asc'
+      }
+    });
+    return plainToInstance(Currency, result);
   }
 
   // findOne(id: number) {

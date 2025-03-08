@@ -8,7 +8,7 @@ export default class Locale {
     id: string;
     code: string;
     displayName: string;
-    displayNameLocales: string;
+    displayNameLocales: object;
     imageUrl: string;
   };
 

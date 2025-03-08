@@ -2,8 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { CurrenciesService } from './currencies.service';
 import { CreateCurrencyDto } from './dto/create-currency.dto';
 import { UpdateCurrencyDto } from './dto/update-currency.dto';
+import { Currency } from './entities/currency.entity';
 
-@Controller('currencies')
+@Controller('api/currencies')
 export class CurrenciesController {
   constructor(private readonly currenciesService: CurrenciesService) {}
 
@@ -13,7 +14,7 @@ export class CurrenciesController {
   // }
 
   @Get()
-  findAll() {
+  public async findAll(): Promise<Currency[]> {
     return this.currenciesService.findAll();
   }
 
