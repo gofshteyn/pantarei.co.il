@@ -7,8 +7,11 @@ export class Course {
     @Expose()
     code: string;
 
-    @Expose()
+    @Exclude()
     courseGroupId: string;
+
+    @Exclude()
+    productId: string;
 
     @Expose()
     displayName: string;

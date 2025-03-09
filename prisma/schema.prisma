@@ -65,6 +65,8 @@ model Course {
   code               String?       @unique @db.VarChar(20)
   courseGroupId      String?       @db.Char(36)
   coursesGroup       CoursesGroup? @relation("GroupCourses", fields: [courseGroupId], references: [id])
+  productId          String        @db.Char(36)
+  product            Product       @relation("CourseProduct", fields: [productId], references: [id])
   displayName        String        @map("display_name") @db.VarChar(100)
   displayNameLocales Json?         @map("display_name_locales")
   subtitle           String?       @map("subtitle") @db.VarChar(100)
@@ -78,6 +80,39 @@ model Course {
   deletedAt          DateTime?     @map("deleted_at") @db.Timestamp
 
   @@map("courses")
+}
+
+model ProductsGroup {
+  id                 String    @id @default(uuid()) @db.Char(36)
+  code               String?   @unique @db.VarChar(20)
+  displayName        String    @map("display_name") @db.VarChar(100)
+  displayNameLocales Json?     @map("display_name_locales")
+  position           Int       @default(0)
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime? @updatedAt @map("updated_at")
+  deletedAt          DateTime? @map("deleted_at") @db.Timestamp
+  products           Product[] @relation("GroupProducts")
+
+  @@map("products_groups")
+}
+
+model Product {
+  id                 String         @id @default(uuid()) @db.Char(36)
+  code               String?        @unique @db.VarChar(20)
+  productGroupId     String?        @db.Char(36)
+  productsGroup      ProductsGroup? @relation("GroupProducts", fields: [productGroupId], references: [id])
+  courses            Course[]       @relation("CourseProduct")
+  displayName        String         @map("display_name") @db.VarChar(100)
+  displayNameLocales Json?          @map("display_name_locales")
+  description        String?        @db.Text
+  descriptionLocales Json?          @map("description_locales")
+  position           Int            @default(0)
+  imageUrl           String?        @map("image_url") @db.VarChar(255)
+  createdAt          DateTime       @default(now()) @map("created_at")
+  updatedAt          DateTime?      @updatedAt @map("updated_at")
+  deletedAt          DateTime?      @map("deleted_at") @db.Timestamp
+
+  @@map("products")
 }
 
 model ClientsPreorder {

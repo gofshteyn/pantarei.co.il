@@ -22,19 +22,16 @@ export class CoursesGroupsService {
     let result = await this.prismaService.coursesGroup.findMany({
       include: includeOptions,
       orderBy: {
-        position: 'asc',
+        position: 'asc'
       }
     });
 
-    let nresult = result.map(group => {
-      const groupCopy = { ...group };
-
-      if (includeCourses && group.courses)
-        groupCopy.courses = group.courses.map(course => plainToInstance(Course, course));
-      return groupCopy;
+    return plainToInstance(CoursesGroup, result).map(group => {
+      if (group.courses) {
+        group.courses = plainToInstance(Course, group.courses);
+      }
+      return group;
     });
-
-    return plainToInstance(CoursesGroup, nresult);
   }
 
   // findOne(id: number) {
