@@ -61,26 +61,68 @@ model CoursesGroup {
 }
 
 model Course {
-  id                 String        @id @default(uuid()) @db.Char(36)
-  code               String?       @unique @db.VarChar(20)
-  courseGroupId      String?       @db.Char(36)
-  group              CoursesGroup? @relation("GroupCourses", fields: [courseGroupId], references: [id])
-  productId          String        @db.Uuid
-  product            Product       @relation("CourseProduct", fields: [productId], references: [id])
-  displayName        String        @map("display_name") @db.VarChar(100)
-  displayNameLocales Json?         @map("display_name_locales")
-  subtitle           String?       @map("subtitle") @db.VarChar(100)
-  subtitleLocales    Json?         @map("subtitle_locales")
-  description        String?       @db.Text
-  descriptionLocales Json?         @map("description_locales")
-  position           Int           @default(0)
-  logoUrl            String?       @map("logo_url") @db.VarChar(255)
-  imageUrl           String?       @map("image_url") @db.VarChar(255)
-  createdAt          DateTime      @default(now()) @map("created_at")
-  updatedAt          DateTime?     @updatedAt @map("updated_at")
-  deletedAt          DateTime?     @map("deleted_at") @db.Timestamp
+  id                 String             @id @default(uuid()) @db.Char(36)
+  code               String?            @unique @db.VarChar(20)
+  courseGroupId      String?            @db.Char(36)
+  group              CoursesGroup?      @relation("GroupCourses", fields: [courseGroupId], references: [id])
+  productId          String             @db.Uuid
+  product            Product            @relation("CourseProduct", fields: [productId], references: [id])
+  displayName        String             @map("display_name") @db.VarChar(100)
+  displayNameLocales Json?              @map("display_name_locales")
+  subtitle           String?            @map("subtitle") @db.VarChar(100)
+  subtitleLocales    Json?              @map("subtitle_locales")
+  description        String?            @db.Text
+  descriptionLocales Json?              @map("description_locales")
+  position           Int                @default(0)
+  logoUrl            String?            @map("logo_url") @db.VarChar(255)
+  imageUrl           String?            @map("image_url") @db.VarChar(255)
+  createdAt          DateTime           @default(now()) @map("created_at")
+  updatedAt          DateTime?          @updatedAt @map("updated_at")
+  deletedAt          DateTime?          @map("deleted_at") @db.Timestamp
+  CourseFeature      CourseFeature[]
+  CourseInclusion    CourseInclusion[]
+  CourseSuggestion   CourseSuggestion[]
 
   @@map("courses")
+}
+
+model CourseFeature {
+  id                 String    @id @default(uuid()) @db.Char(36)
+  courseId           String    @db.Char(36)
+  course             Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  description        String    @db.VarChar(255) // Например, "Время в воде 30 минут"
+  descriptionLocales Json?     @map("description_locales")
+  position           Int       @default(0) // Порядок отображения
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime? @updatedAt @map("updated_at")
+
+  @@map("courses_features")
+}
+
+model CourseInclusion {
+  id                 String    @id @default(uuid()) @db.Char(36)
+  courseId           String    @db.Char(36)
+  course             Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  description        String    @db.VarChar(255) // Например, "Снаряжение"
+  descriptionLocales Json?     @map("description_locales")
+  position           Int       @default(0) // Порядок отображения
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime? @updatedAt @map("updated_at")
+
+  @@map("courses_inclusions")
+}
+
+model CourseSuggestion {
+  id                 String    @id @default(uuid()) @db.Char(36)
+  courseId           String    @db.Char(36)
+  course             Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  description        String    @db.VarChar(255) // Например, "Фонарь"
+  descriptionLocales Json?     @map("description_locales")
+  position           Int       @default(0) // Порядок отображения
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime? @updatedAt @map("updated_at")
+
+  @@map("courses_suggestions")
 }
 
 model ProductsGroup {
@@ -143,24 +185,66 @@ model ClientsPreorder {
 }
 
 model Excursion {
-  id                 String    @id @default(uuid()) @db.Char(36)
-  code               String?   @unique @db.VarChar(20)
-  productId          String    @db.Uuid
-  product            Product   @relation("ExcursionProduct", fields: [productId], references: [id])
-  displayName        String    @map("display_name") @db.VarChar(100)
-  displayNameLocales Json?     @map("display_name_locales")
-  subtitle           String?   @map("subtitle") @db.VarChar(100)
-  subtitleLocales    Json?     @map("subtitle_locales")
-  description        String?   @map("description") @db.Text
-  descriptionLocales Json?     @map("description_locales")
-  position           Int       @default(0)
-  logoUrl            String?   @map("logo_url") @db.VarChar(255)
-  imageUrl           String?   @map("image_url") @db.VarChar(255)
-  createdAt          DateTime  @default(now()) @map("created_at")
-  updatedAt          DateTime? @updatedAt @map("updated_at")
-  deletedAt          DateTime? @map("deleted_at") @db.Timestamp
+  id                  String                @id @default(uuid()) @db.Char(36)
+  code                String?               @unique @db.VarChar(20)
+  productId           String                @db.Uuid
+  product             Product               @relation("ExcursionProduct", fields: [productId], references: [id])
+  displayName         String                @map("display_name") @db.VarChar(100)
+  displayNameLocales  Json?                 @map("display_name_locales")
+  subtitle            String?               @map("subtitle") @db.VarChar(100)
+  subtitleLocales     Json?                 @map("subtitle_locales")
+  description         String?               @map("description") @db.Text
+  descriptionLocales  Json?                 @map("description_locales")
+  position            Int                   @default(0)
+  logoUrl             String?               @map("logo_url") @db.VarChar(255)
+  imageUrl            String?               @map("image_url") @db.VarChar(255)
+  createdAt           DateTime              @default(now()) @map("created_at")
+  updatedAt           DateTime?             @updatedAt @map("updated_at")
+  deletedAt           DateTime?             @map("deleted_at") @db.Timestamp
+  ExcursionFeature    ExcursionFeature[]
+  ExcursionInclusion  ExcursionInclusion[]
+  ExcursionSuggestion ExcursionSuggestion[]
 
   @@map("excursions")
+}
+
+model ExcursionFeature {
+  id                 String    @id @default(uuid()) @db.Char(36)
+  excursionId        String    @db.Char(36)
+  excursion          Excursion @relation(fields: [excursionId], references: [id], onDelete: Cascade)
+  description        String    @db.VarChar(255) // Например, "Доступно детям от 8 лет"
+  descriptionLocales Json?     @map("description_locales")
+  position           Int       @default(0) // Порядок отображения
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime? @updatedAt @map("updated_at")
+
+  @@map("excursions_features")
+}
+
+model ExcursionInclusion {
+  id                 String    @id @default(uuid()) @db.Char(36)
+  excursionId        String    @db.Char(36)
+  excursion          Excursion @relation(fields: [excursionId], references: [id], onDelete: Cascade)
+  description        String    @db.VarChar(255) // Например, "Страховка"
+  descriptionLocales Json?     @map("description_locales")
+  position           Int       @default(0) // Порядок отображения
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime? @updatedAt @map("updated_at")
+
+  @@map("excursions_inclusions")
+}
+
+model ExcursionSuggestion {
+  id                 String    @id @default(uuid()) @db.Char(36)
+  excursionId        String    @db.Char(36)
+  excursion          Excursion @relation(fields: [excursionId], references: [id], onDelete: Cascade)
+  description        String    @db.VarChar(255) // Например, "Бутылка воды"
+  descriptionLocales Json?     @map("description_locales")
+  position           Int       @default(0) // Порядок отображения
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime? @updatedAt @map("updated_at")
+
+  @@map("excursions_suggestions")
 }
 
 // Enum для статусов предзаказа

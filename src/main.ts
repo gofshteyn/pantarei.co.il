@@ -12,6 +12,10 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get<number>('APPLICATION_PORT') || 3000;
 
+  // courses_features
+  // courses_inclusions
+  // courses_suggestions
+
   app.setViewEngine('ejs');
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.useStaticAssets(join(__dirname, '..', 'public'));
