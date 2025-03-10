@@ -16,10 +16,10 @@ export class CoursesGroup {
     displayNameLocales: object;
 
     @Expose()
-    position: number;
-
-    @Expose()
     courses?: Course[];
+
+    @Exclude()
+    position: number;
 
     @Exclude()
     createdAt: Date;

@@ -74,6 +74,7 @@ model Course {
   description        String?       @db.Text
   descriptionLocales Json?         @map("description_locales")
   position           Int           @default(0)
+  logoUrl            String?       @map("logo_url") @db.VarChar(255)
   imageUrl           String?       @map("image_url") @db.VarChar(255)
   createdAt          DateTime      @default(now()) @map("created_at")
   updatedAt          DateTime?     @updatedAt @map("updated_at")
@@ -102,6 +103,7 @@ model Product {
   productGroupId     String?           @db.Char(36)
   productsGroup      ProductsGroup?    @relation("GroupProducts", fields: [productGroupId], references: [id])
   courses            Course[]          @relation("CourseProduct")
+  excursions         Excursion[]       @relation("ExcursionProduct")
   displayName        String            @map("display_name") @db.VarChar(100)
   displayNameLocales Json?             @map("display_name_locales")
   description        String?           @db.Text
@@ -136,6 +138,27 @@ model ClientsPreorder {
   product Product @relation(fields: [productId], references: [id])
 
   @@map("clients_preorders")
+}
+
+model Excursion {
+  id                 String    @id @default(uuid()) @db.Char(36)
+  code               String?   @unique @db.VarChar(20)
+  productId          String    @db.Uuid
+  product            Product   @relation("ExcursionProduct", fields: [productId], references: [id])
+  displayName        String    @map("display_name") @db.VarChar(100)
+  displayNameLocales Json?     @map("display_name_locales")
+  subtitle           String?   @map("subtitle") @db.VarChar(100)
+  subtitleLocales    Json?     @map("subtitle_locales")
+  description        String?   @map("description") @db.Text
+  descriptionLocales Json?     @map("description_locales")
+  position           Int       @default(0)
+  logoUrl            String?   @map("logo_url") @db.VarChar(255)
+  imageUrl           String?   @map("image_url") @db.VarChar(255)
+  createdAt          DateTime  @default(now()) @map("created_at")
+  updatedAt          DateTime? @updatedAt @map("updated_at")
+  deletedAt          DateTime? @map("deleted_at") @db.Timestamp
+
+  @@map("excursions")
 }
 
 // Enum для статусов предзаказа

@@ -1,30 +1,30 @@
 import { Exclude, Expose } from "class-transformer";
 
-export class ProductPreview {
+export class Excursion {
 
     @Expose()
     id: string;
 
-    @Exclude()
+    @Expose()
     code: string;
-
-    @Exclude()
-    productGroupId: string;
 
     @Expose()
     displayName: string;
 
     @Expose()
-    displayNameLocales: object;
+    displayNameLocales: string;
 
-    @Exclude()
+    @Expose()
+    subtitle: string;
+
+    @Expose()
+    subtitleLocales: string;
+
+    @Expose()
     description: string;
 
-    @Exclude()
-    descriptionLocales: object;
-
-    @Exclude()
-    imageUrl: string;
+    @Expose()
+    descriptionLocales: string;
 
     @Exclude()
     position: number;

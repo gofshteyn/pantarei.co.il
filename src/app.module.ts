@@ -13,6 +13,7 @@ import { CoursesGroupsModule } from './api/courses-groups/courses-groups.module'
 import { CoursesModule } from './api/courses/courses.module';
 import { ClientsPreordersModule } from './api/clients-preorders/clients-preorders.module';
 import { ProductsModule } from './api/products/products.module';
+import { ExcursionsModule } from './api/excursions/excursions.module';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { ProductsModule } from './api/products/products.module';
     CoursesGroupsModule,
     CoursesModule,
     ClientsPreordersModule,
-    ProductsModule
+    ProductsModule,
+    ExcursionsModule
   ],
   controllers: [AppController],
   providers: [

@@ -32,10 +32,13 @@ export class Course {
     descriptionLocales: object;
 
     @Expose()
-    position: number;
+    logoUrl: string;
 
     @Expose()
     imageUrl: string;
+
+    @Exclude()
+    position: number;
 
     @Exclude()
     createdAt: Date;
