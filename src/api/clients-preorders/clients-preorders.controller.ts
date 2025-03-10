@@ -8,14 +8,12 @@ import { Request } from 'express';
 @Controller('api/clients-preorders')
 export class ClientsPreordersController {
   constructor(
-    private readonly clientsPreordersService: ClientsPreordersService,
-    private readonly appService: AppService
+    private readonly clientsPreordersService: ClientsPreordersService
   ) {}
 
   @Post()
   public async create(@Body() createClientsPreorderDto: CreateClientsPreorderDto, @Req() req: Request) {
-    const localeId = await this.appService.detectLocalization(req);
-    return await this.clientsPreordersService.create(createClientsPreorderDto, localeId);
+    return await this.clientsPreordersService.create(createClientsPreorderDto);
   }
 
   @Get()

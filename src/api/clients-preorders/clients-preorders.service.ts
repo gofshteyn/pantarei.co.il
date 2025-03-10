@@ -1,19 +1,20 @@
 import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { CreateClientsPreorderDto } from './dto/create-clients-preorder.dto';
-import { UpdateClientsPreorderDto } from './dto/update-clients-preorder.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Prisma } from '@prisma/client';
 import { plainToInstance } from 'class-transformer';
-import { validate } from 'class-validator';
+import { ClientsPreorder } from './entities/clients-preorder.entity';
+import { ProductPreview } from '../products/entities/product-preview.entity';
 
 @Injectable()
 export class ClientsPreordersService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  public async create(createClientsPreorderDto: CreateClientsPreorderDto, localeId: string) {
+  public async create(createClientsPreorderDto: CreateClientsPreorderDto) {
     
     let result;
+
     try {
       result = await this.prisma.clientsPreorder.create({
         data: {
@@ -22,29 +23,25 @@ export class ClientsPreordersService {
           email: createClientsPreorderDto.email,
           productId: createClientsPreorderDto.productId,
           isMediaRequired: createClientsPreorderDto.isMediaRequired,
-          localeId: localeId
+          localeId: createClientsPreorderDto.localeId
         },
-        select: {
-          id: true,
-          registrationDate: true,
-          displayName: true,
-          phone: true,
-          email: true,
-          productId: true,
-          isMediaRequired: true,
-          localeId: true
+        include: {
+          product: true
         }
       });
     } catch (e) {
       Logger.error(e);
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
-        if (e.code === 'P2003')
-          throw new BadRequestException('Product not found');
+        if (e.code === 'P2003') {
+          const field = e.meta?.target ? e.meta.target : 'Unknown field';
+          throw new BadRequestException(`Ошибка: Нарушение внешнего ключа на поле ${field}`);
+        };
       };
       throw new InternalServerErrorException();
     };
 
-    return result;
+    result.product = plainToInstance(ProductPreview, result.product);
+    return plainToInstance(ClientsPreorder, result);
   }
 
   public findAll() {

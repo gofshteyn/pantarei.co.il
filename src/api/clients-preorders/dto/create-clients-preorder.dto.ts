@@ -20,4 +20,8 @@ export class CreateClientsPreorderDto {
     @IsBoolean()
     @IsOptional()
     isMediaRequired?: boolean;
+
+    @IsString()
+    @IsNotEmpty()
+    localeId: string;
 }

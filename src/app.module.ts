@@ -12,6 +12,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { CoursesGroupsModule } from './api/courses-groups/courses-groups.module';
 import { CoursesModule } from './api/courses/courses.module';
 import { ClientsPreordersModule } from './api/clients-preorders/clients-preorders.module';
+import { ProductsModule } from './api/products/products.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { ClientsPreordersModule } from './api/clients-preorders/clients-preorder
     PrismaModule,
     CoursesGroupsModule,
     CoursesModule,
-    ClientsPreordersModule
+    ClientsPreordersModule,
+    ProductsModule
   ],
   controllers: [AppController],
   providers: [

@@ -8,6 +8,6 @@ import { AppService } from 'src/app.service';
 @Module({
   imports: [PrismaModule],
   controllers: [ClientsPreordersController],
-  providers: [ClientsPreordersService, AppService],
+  providers: [ClientsPreordersService],
 })
 export class ClientsPreordersModule {}
