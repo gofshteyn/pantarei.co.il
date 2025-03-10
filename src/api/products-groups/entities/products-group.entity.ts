@@ -1,9 +1,12 @@
 import { Exclude, Expose } from "class-transformer";
 
-export class ProductPreview {
+export class ProductsGroup {
 
     @Expose()
     id: string;
+
+    @Expose()
+    code: string;
 
     @Expose()
     displayName: string;
@@ -11,22 +14,7 @@ export class ProductPreview {
     @Expose()
     displayNameLocales: object;
 
-    @Exclude()
-    code: string;
-
-    @Exclude()
-    productGroupId: string;
-
-    @Exclude()
-    description: string;
-
-    @Exclude()
-    descriptionLocales: object;
-
-    @Exclude()
-    imageUrl: string;
-
-    @Exclude()
+    @Expose()
     position: number;
 
     @Exclude()

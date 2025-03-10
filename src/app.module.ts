@@ -14,6 +14,7 @@ import { CoursesModule } from './api/courses/courses.module';
 import { ClientsPreordersModule } from './api/clients-preorders/clients-preorders.module';
 import { ProductsModule } from './api/products/products.module';
 import { ExcursionsModule } from './api/excursions/excursions.module';
+import { ProductsGroupsModule } from './api/products-groups/products-groups.module';
 
 @Module({
   imports: [
@@ -29,7 +30,8 @@ import { ExcursionsModule } from './api/excursions/excursions.module';
     CoursesModule,
     ClientsPreordersModule,
     ProductsModule,
-    ExcursionsModule
+    ExcursionsModule,
+    ProductsGroupsModule
   ],
   controllers: [AppController],
   providers: [
