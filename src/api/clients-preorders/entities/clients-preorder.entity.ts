@@ -17,10 +17,19 @@ export class ClientsPreorder {
     displayName: string;
 
     @Expose()
+    firstName: string;
+
+    @Expose()
+    lastName: string;
+
+    @Expose()
     phone: string;
 
     @Expose()
     email: string;
+
+    @Expose()
+    comment: string;
 
     @Exclude()
     productId: string;

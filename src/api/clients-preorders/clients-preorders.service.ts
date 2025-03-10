@@ -18,11 +18,13 @@ export class ClientsPreordersService {
     try {
       result = await this.prisma.clientsPreorder.create({
         data: {
-          displayName: createClientsPreorderDto.displayName,
+          firstName: createClientsPreorderDto.firstName,
+          lastName: createClientsPreorderDto.lastName,
           phone: createClientsPreorderDto.phone,
           email: createClientsPreorderDto.email,
           productId: createClientsPreorderDto.productId,
           isMediaRequired: createClientsPreorderDto.isMediaRequired,
+          comment: createClientsPreorderDto.comment,
           localeId: createClientsPreorderDto.localeId
         },
         include: {
@@ -34,8 +36,7 @@ export class ClientsPreordersService {
       Logger.error(e);
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         if (e.code === 'P2003') {
-          const field = e.meta?.target ? e.meta.target : 'Unknown field';
-          throw new BadRequestException(`Ошибка: Нарушение внешнего ключа на поле ${field}`);
+          throw new BadRequestException(`Нарушение внешнего ключа.`);
         };
       };
       throw new InternalServerErrorException();
