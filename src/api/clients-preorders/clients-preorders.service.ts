@@ -29,6 +29,7 @@ export class ClientsPreordersService {
           product: true
         }
       });
+      
     } catch (e) {
       Logger.error(e);
       if (e instanceof Prisma.PrismaClientKnownRequestError) {

@@ -64,7 +64,7 @@ model Course {
   id                 String        @id @default(uuid()) @db.Char(36)
   code               String?       @unique @db.VarChar(20)
   courseGroupId      String?       @db.Char(36)
-  coursesGroup       CoursesGroup? @relation("GroupCourses", fields: [courseGroupId], references: [id])
+  group              CoursesGroup? @relation("GroupCourses", fields: [courseGroupId], references: [id])
   productId          String        @db.Uuid
   product            Product       @relation("CourseProduct", fields: [productId], references: [id])
   displayName        String        @map("display_name") @db.VarChar(100)
@@ -101,7 +101,7 @@ model Product {
   id                 String            @id @default(uuid()) @db.Uuid
   code               String?           @unique @db.VarChar(20)
   productGroupId     String?           @db.Char(36)
-  productsGroup      ProductsGroup?    @relation("GroupProducts", fields: [productGroupId], references: [id])
+  group              ProductsGroup?    @relation("GroupProducts", fields: [productGroupId], references: [id])
   courses            Course[]          @relation("CourseProduct")
   excursions         Excursion[]       @relation("ExcursionProduct")
   displayName        String            @map("display_name") @db.VarChar(100)
