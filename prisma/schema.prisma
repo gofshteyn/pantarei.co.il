@@ -79,9 +79,9 @@ model Course {
   createdAt          DateTime           @default(now()) @map("created_at")
   updatedAt          DateTime?          @updatedAt @map("updated_at")
   deletedAt          DateTime?          @map("deleted_at") @db.Timestamp
-  CourseFeature      CourseFeature[]
-  CourseInclusion    CourseInclusion[]
-  CourseSuggestion   CourseSuggestion[]
+  features           CourseFeature[]
+  inclusions         CourseInclusion[]
+  suggestions        CourseSuggestion[]
 
   @@map("courses")
 }
@@ -95,6 +95,7 @@ model CourseFeature {
   position           Int       @default(0) // Порядок отображения
   createdAt          DateTime  @default(now()) @map("created_at")
   updatedAt          DateTime? @updatedAt @map("updated_at")
+  deletedAt          DateTime? @map("deleted_at") @db.Timestamp
 
   @@map("courses_features")
 }
@@ -108,6 +109,7 @@ model CourseInclusion {
   position           Int       @default(0) // Порядок отображения
   createdAt          DateTime  @default(now()) @map("created_at")
   updatedAt          DateTime? @updatedAt @map("updated_at")
+  deletedAt          DateTime? @map("deleted_at") @db.Timestamp
 
   @@map("courses_inclusions")
 }
@@ -121,6 +123,7 @@ model CourseSuggestion {
   position           Int       @default(0) // Порядок отображения
   createdAt          DateTime  @default(now()) @map("created_at")
   updatedAt          DateTime? @updatedAt @map("updated_at")
+  deletedAt          DateTime? @map("deleted_at") @db.Timestamp
 
   @@map("courses_suggestions")
 }
@@ -185,25 +188,25 @@ model ClientsPreorder {
 }
 
 model Excursion {
-  id                  String                @id @default(uuid()) @db.Char(36)
-  code                String?               @unique @db.VarChar(20)
-  productId           String                @db.Uuid
-  product             Product               @relation("ExcursionProduct", fields: [productId], references: [id])
-  displayName         String                @map("display_name") @db.VarChar(100)
-  displayNameLocales  Json?                 @map("display_name_locales")
-  subtitle            String?               @map("subtitle") @db.VarChar(100)
-  subtitleLocales     Json?                 @map("subtitle_locales")
-  description         String?               @map("description") @db.Text
-  descriptionLocales  Json?                 @map("description_locales")
-  position            Int                   @default(0)
-  logoUrl             String?               @map("logo_url") @db.VarChar(255)
-  imageUrl            String?               @map("image_url") @db.VarChar(255)
-  createdAt           DateTime              @default(now()) @map("created_at")
-  updatedAt           DateTime?             @updatedAt @map("updated_at")
-  deletedAt           DateTime?             @map("deleted_at") @db.Timestamp
-  ExcursionFeature    ExcursionFeature[]
-  ExcursionInclusion  ExcursionInclusion[]
-  ExcursionSuggestion ExcursionSuggestion[]
+  id                 String                @id @default(uuid()) @db.Char(36)
+  code               String?               @unique @db.VarChar(20)
+  productId          String                @db.Uuid
+  product            Product               @relation("ExcursionProduct", fields: [productId], references: [id])
+  displayName        String                @map("display_name") @db.VarChar(100)
+  displayNameLocales Json?                 @map("display_name_locales")
+  subtitle           String?               @map("subtitle") @db.VarChar(100)
+  subtitleLocales    Json?                 @map("subtitle_locales")
+  description        String?               @map("description") @db.Text
+  descriptionLocales Json?                 @map("description_locales")
+  position           Int                   @default(0)
+  logoUrl            String?               @map("logo_url") @db.VarChar(255)
+  imageUrl           String?               @map("image_url") @db.VarChar(255)
+  createdAt          DateTime              @default(now()) @map("created_at")
+  updatedAt          DateTime?             @updatedAt @map("updated_at")
+  deletedAt          DateTime?             @map("deleted_at") @db.Timestamp
+  features           ExcursionFeature[]
+  inclusions         ExcursionInclusion[]
+  suggestions        ExcursionSuggestion[]
 
   @@map("excursions")
 }
@@ -217,6 +220,7 @@ model ExcursionFeature {
   position           Int       @default(0) // Порядок отображения
   createdAt          DateTime  @default(now()) @map("created_at")
   updatedAt          DateTime? @updatedAt @map("updated_at")
+  deletedAt          DateTime? @map("deleted_at") @db.Timestamp
 
   @@map("excursions_features")
 }
@@ -230,6 +234,7 @@ model ExcursionInclusion {
   position           Int       @default(0) // Порядок отображения
   createdAt          DateTime  @default(now()) @map("created_at")
   updatedAt          DateTime? @updatedAt @map("updated_at")
+  deletedAt          DateTime? @map("deleted_at") @db.Timestamp
 
   @@map("excursions_inclusions")
 }
@@ -243,6 +248,7 @@ model ExcursionSuggestion {
   position           Int       @default(0) // Порядок отображения
   createdAt          DateTime  @default(now()) @map("created_at")
   updatedAt          DateTime? @updatedAt @map("updated_at")
+  deletedAt          DateTime? @map("deleted_at") @db.Timestamp
 
   @@map("excursions_suggestions")
 }

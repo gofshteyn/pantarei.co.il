@@ -4,6 +4,9 @@ import { UpdateExcursionDto } from './dto/update-excursion.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
 import { Excursion } from './entities/excursion.entity';
+import { ExcursionFeature } from './entities/excursion-feature.entity';
+import { ExcursionInclusion } from './entities/excursion-inclusion.entity';
+import { ExcursionSuggestion } from './entities/excursion-suggestion.entity';
 
 @Injectable()
 export class ExcursionsService {
@@ -16,24 +19,36 @@ export class ExcursionsService {
 
   public async findAll(): Promise<Excursion[]> {
     const result = await this.prismaService.excursion.findMany({
-          select: {
-            id: true,
-            code: true,
-            displayName: true,
-            displayNameLocales: true,
-            subtitle: true,
-            subtitleLocales: true,
-            description: true,
-            descriptionLocales: true,
-            position: true,
-            logoUrl: true,
-            imageUrl: true
-          },
+      include: {
+        features: {
           orderBy: {
             position: 'asc'
           }
-        });
-        return plainToInstance(Excursion, result);
+        },
+        inclusions: {
+          orderBy: {
+            position: 'asc'
+          }
+        },
+        suggestions: {
+          orderBy: {
+            position: 'asc'
+          }
+        }
+      },
+      orderBy: {
+        position: 'asc'
+      }
+    });
+    
+    return result.map(excursion =>
+      plainToInstance(Excursion, {
+        ...excursion,
+        features: excursion.features ? plainToInstance(ExcursionFeature, excursion.features) : null,
+        inclusions: excursion.inclusions ? plainToInstance(ExcursionInclusion, excursion.inclusions) : null,
+        suggestions: excursion.suggestions ? plainToInstance(ExcursionSuggestion, excursion.suggestions) : null
+      })
+    );
   }
 
   // findOne(id: number) {

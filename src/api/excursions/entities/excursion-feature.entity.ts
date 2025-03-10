@@ -1,24 +1,9 @@
 import { Exclude, Expose } from "class-transformer";
 
-export class Excursion {
+export class ExcursionFeature {
 
     @Expose()
     id: string;
-
-    @Expose()
-    code: string;
-
-    @Expose()
-    displayName: string;
-
-    @Expose()
-    displayNameLocales: string;
-
-    @Expose()
-    subtitle: string;
-
-    @Expose()
-    subtitleLocales: string;
 
     @Expose()
     description: string;
@@ -26,17 +11,11 @@ export class Excursion {
     @Expose()
     descriptionLocales: string;
 
-    @Expose()
-    logoUrl: string;
-
-    @Expose()
-    imageUrl: string;
-
     @Exclude()
     position: number;
 
     @Exclude()
-    productId: string;
+    excursionId: string;
 
     @Exclude()
     createdAt: Date;
