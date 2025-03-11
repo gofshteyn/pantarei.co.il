@@ -53,6 +53,7 @@ model Price {
   product    Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId  String    @db.Uuid
   price      Decimal
+  priceMode  PriceMode @default(exact)
   currency   Currency  @relation(fields: [currencyId], references: [id])
   currencyId String    @db.VarChar(4)
   startDate  DateTime
@@ -61,7 +62,7 @@ model Price {
   comment    String?   @db.Text
 
   createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  updatedAt DateTime? @updatedAt
   deletedAt DateTime? @map("deleted_at") @db.Timestamp
 
   @@map("prices")
@@ -70,6 +71,12 @@ model Price {
 enum PriceType {
   sale
   purchase
+}
+
+enum PriceMode {
+  exact // Точный
+  from  // От
+  to    // До
 }
 
 model CoursesGroup {
