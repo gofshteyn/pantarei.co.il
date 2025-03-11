@@ -3,7 +3,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CoursesGroup } from './entities/courses-group.entity';
 import { plainToInstance } from 'class-transformer';
 import { Course } from '../courses/entities/course.entity';
-import { features } from 'process';
 import { CourseFeature } from '../courses/entities/course-feature.entity';
 import { CourseInclusion } from '../courses/entities/course-inclusion.entity';
 import { CourseSuggestion } from '../courses/entities/course-suggestion.entity';
