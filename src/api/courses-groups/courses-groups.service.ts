@@ -3,6 +3,10 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CoursesGroup } from './entities/courses-group.entity';
 import { plainToInstance } from 'class-transformer';
 import { Course } from '../courses/entities/course.entity';
+import { features } from 'process';
+import { CourseFeature } from '../courses/entities/course-feature.entity';
+import { CourseInclusion } from '../courses/entities/course-inclusion.entity';
+import { CourseSuggestion } from '../courses/entities/course-suggestion.entity';
 
 @Injectable()
 export class CoursesGroupsService {
@@ -15,10 +19,32 @@ export class CoursesGroupsService {
 
   public async findAll(expand?: string[]): Promise<CoursesGroup[]> {
 
-    const includeOptions: Record<string, boolean> = {};
-    const includeCourses = expand?.includes('courses');
-    includeOptions.courses = includeCourses;
+    const includeOptions: Record<string, object> = {};
 
+    if (expand?.includes('courses'))
+      includeOptions.courses = {
+        include: {
+          features: {
+            orderBy: {
+              position: 'asc'
+            }
+          },
+          inclusions: {
+            orderBy: {
+              position: 'asc'
+            }
+          },
+          suggestions: {
+            orderBy: {
+              position: 'asc'
+            }
+          }
+        },
+        orderBy: {
+          position: 'asc'
+        }
+      };
+    
     let result = await this.prismaService.coursesGroup.findMany({
       include: includeOptions,
       orderBy: {
@@ -28,7 +54,12 @@ export class CoursesGroupsService {
 
     return plainToInstance(CoursesGroup, result).map(group => {
       if (group.courses) {
-        group.courses = plainToInstance(Course, group.courses);
+        group.courses = plainToInstance(Course, group.courses).map(course => {
+          course.features = plainToInstance(CourseFeature, course.features || []);
+          course.inclusions = plainToInstance(CourseInclusion, course.inclusions || []);
+          course.suggestions = plainToInstance(CourseSuggestion, course.suggestions || []);
+          return course;
+        });
       }
       return group;
     });

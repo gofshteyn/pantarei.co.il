@@ -1,4 +1,7 @@
 import { Exclude, Expose } from "class-transformer";
+import { CourseFeature } from "./course-feature.entity";
+import { CourseInclusion } from "./course-inclusion.entity";
+import { CourseSuggestion } from "./course-suggestion.entity";
 
 export class Course {
     @Expose()
@@ -30,6 +33,15 @@ export class Course {
 
     @Expose()
     descriptionLocales: object;
+
+    @Expose()
+    features?: CourseFeature[];
+    
+    @Expose()
+    inclusions?: CourseInclusion[];
+    
+    @Expose()
+    suggestions?: CourseSuggestion[];
 
     @Expose()
     logoUrl: string;
