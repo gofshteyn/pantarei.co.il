@@ -6,6 +6,9 @@ import { Course } from '../courses/entities/course.entity';
 import { CourseFeature } from '../courses/entities/course-feature.entity';
 import { CourseInclusion } from '../courses/entities/course-inclusion.entity';
 import { CourseSuggestion } from '../courses/entities/course-suggestion.entity';
+import { Product } from '../products/entities/product.entity';
+import { Currency } from '../currencies/entities/currency.entity';
+import { take } from 'rxjs';
 
 @Injectable()
 export class CoursesGroupsService {
@@ -15,14 +18,22 @@ export class CoursesGroupsService {
   // create(createCoursesGroupDto: CreateCoursesGroupDto) {
   //   return 'This action adds a new coursesGroup';
   // }
+  // : Promise<CoursesGroup[]>
+  public async findAll(expand?: string[]) {
 
-  public async findAll(expand?: string[]): Promise<CoursesGroup[]> {
+    const today = new Date();
+
+    // Получаем ID валюты по умолчанию или используем 'ILS'
+    const defaultCurrency = await this.prismaService.currency.findFirst({
+      where: { isDefault: true, deletedAt: null },
+    });
 
     const includeOptions: Record<string, object> = {};
 
     if (expand?.includes('courses'))
       includeOptions.courses = {
         include: {
+          product: true,
           features: {
             orderBy: {
               position: 'asc'
@@ -57,7 +68,7 @@ export class CoursesGroupsService {
           course.features = plainToInstance(CourseFeature, course.features || []);
           course.inclusions = plainToInstance(CourseInclusion, course.inclusions || []);
           course.suggestions = plainToInstance(CourseSuggestion, course.suggestions || []);
-          return course;
+          return {...course};
         });
       }
       return group;

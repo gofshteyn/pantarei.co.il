@@ -52,12 +52,12 @@ model Price {
   id         String    @id @default(uuid()) @db.Char(36)
   product    Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId  String    @db.Uuid
-  price      Decimal
+  price      Decimal   @default(0) @db.Decimal(15, 2)
   priceMode  PriceMode @default(exact)
   currency   Currency  @relation(fields: [currencyId], references: [id])
   currencyId String    @db.VarChar(4)
   startDate  DateTime
-  endDate    DateTime?
+  endDate    DateTime
   priceType  PriceType
   comment    String?   @db.Text
 
@@ -75,8 +75,8 @@ enum PriceType {
 
 enum PriceMode {
   exact // Точный
-  from  // От
-  to    // До
+  from // От
+  to // До
 }
 
 model CoursesGroup {
@@ -193,7 +193,7 @@ model Product {
   updatedAt          DateTime?         @updatedAt @map("updated_at")
   deletedAt          DateTime?         @map("deleted_at") @db.Timestamp
   preorders          ClientsPreorder[]
-  Price              Price[]
+  prices             Price[]
 
   @@map("products")
 }

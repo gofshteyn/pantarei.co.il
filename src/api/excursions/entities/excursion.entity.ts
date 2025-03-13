@@ -1,4 +1,5 @@
 import { Exclude, Expose } from "class-transformer";
+import { Currency } from "src/api/currencies/entities/currency.entity";
 
 export class Excursion {
 
@@ -25,6 +26,13 @@ export class Excursion {
 
     @Expose()
     descriptionLocales: string;
+
+    @Expose()
+    defaultPrice: {
+        price: number;
+        priceMode: string;
+        currency: Currency
+    }
 
     @Expose()
     logoUrl: string;

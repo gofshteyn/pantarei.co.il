@@ -13,8 +13,9 @@ export class CoursesGroupsController {
   //   return this.coursesGroupsService.create(createCoursesGroupDto);
   // }
 
+  // : Promise<CoursesGroup[]>
   @Get()
-  public async findAll(@Query('expand') expand: string): Promise<CoursesGroup[]> {
+  public async findAll(@Query('expand') expand: string) {
     // Передача параметра ?expand=["courses", "prices"]
     let expandArray = [];
     try {

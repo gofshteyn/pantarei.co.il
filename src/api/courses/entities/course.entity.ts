@@ -2,6 +2,8 @@ import { Exclude, Expose } from "class-transformer";
 import { CourseFeature } from "./course-feature.entity";
 import { CourseInclusion } from "./course-inclusion.entity";
 import { CourseSuggestion } from "./course-suggestion.entity";
+import { Product } from "@prisma/client";
+import { Currency } from "src/api/currencies/entities/currency.entity";
 
 export class Course {
     @Expose()
@@ -10,11 +12,21 @@ export class Course {
     @Expose()
     code: string;
 
+    @Expose()
+        defaultPrice: {
+        price: number;
+        priceMode: string;
+        currency: Currency
+    }
+
     @Exclude()
     courseGroupId: string;
 
     @Exclude()
     productId: string;
+
+    @Expose()
+    product: Product;
 
     @Expose()
     displayName: string;

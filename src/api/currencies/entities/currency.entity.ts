@@ -1,4 +1,4 @@
-import { Expose } from "class-transformer";
+import { Exclude, Expose } from "class-transformer";
 
 export class Currency {
     @Expose()
@@ -12,4 +12,16 @@ export class Currency {
 
     @Expose()
     symbol: string;
+
+    @Exclude()
+    isDefault: boolean;
+
+    @Exclude()
+    createdAt: Date;
+
+    @Exclude()
+    updatedAt: Date;
+
+    @Exclude()
+    deletedAt: Date;
 }

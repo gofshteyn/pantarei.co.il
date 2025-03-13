@@ -1,3 +1,4 @@
+import { Currency } from "@prisma/client";
 import { Exclude, Expose } from "class-transformer";
 
 export class Product {
@@ -24,7 +25,17 @@ export class Product {
     descriptionLocales: object;
 
     @Expose()
+    isService: boolean;
+
+    @Expose()
     position: number;
+
+    @Exclude()
+    prices: Array<{
+        price: number,
+        priceMode: string,
+        currency: Currency
+    }>
 
     @Expose()
     imageUrl: string;

@@ -15,6 +15,7 @@ import { ClientsPreordersModule } from './api/clients-preorders/clients-preorder
 import { ProductsModule } from './api/products/products.module';
 import { ExcursionsModule } from './api/excursions/excursions.module';
 import { ProductsGroupsModule } from './api/products-groups/products-groups.module';
+import { GalleryModule } from './api/gallery/gallery.module';
 
 @Module({
   imports: [
@@ -31,7 +32,8 @@ import { ProductsGroupsModule } from './api/products-groups/products-groups.modu
     ClientsPreordersModule,
     ProductsModule,
     ExcursionsModule,
-    ProductsGroupsModule
+    ProductsGroupsModule,
+    GalleryModule
   ],
   controllers: [AppController],
   providers: [
