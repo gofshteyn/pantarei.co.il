@@ -1,0 +1,43 @@
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; color: #333; background-color: #f4f4f4; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
+        .header { font-size: 20px; font-weight: bold; color: #007bff; }
+        .section { margin-top: 15px; padding: 10px; background: #f9f9f9; border-radius: 5px; }
+        .footer { margin-top: 20px; font-size: 14px; color: #777; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p class="header">📩 Новая заявка на сайте pantarei.co.il</p>
+
+        <div class="section">
+            <p><strong>Услуга:</strong> <%= locals.product %></p>
+            <p><strong>Фото и видео:</strong> <%= locals.isMediaRequired ? 'Требуется' : 'Не требуется' %></p>
+        </div>
+
+        <div class="section">
+            <p><strong>Имя:</strong> <%= locals.firstName || "Не указано" %></p>
+            <p><strong>Фамилия:</strong> <%= locals.lastName || "Не указано" %></p>
+            <p><strong>Телефон:</strong> <%= locals.phone || "Не указан" %></p>
+            <p><strong>Email:</strong> <a href="mailto:<%= locals.email %>"><%= locals.email %></a></p>
+        </div>
+
+        <% if (locals.comment) { %>
+        <div class="section">
+            <p><strong>Комментарий:</strong></p>
+            <p><%= locals.comment %></p>
+        </div>
+        <% } %>
+
+        <div class="section">
+            <p><strong>Предпочитаемый язык:</strong> <%= locals.localeId || "Не указан" %></p>
+        </div>
+
+        <div class="footer">
+            <p>📬 Это автоматическое уведомление, отвечать на него не нужно.</p>
+        </div>
+    </div>
+</body>
+</html>

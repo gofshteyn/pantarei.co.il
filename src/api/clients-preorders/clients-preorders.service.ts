@@ -5,16 +5,21 @@ import { Prisma } from '@prisma/client';
 import { plainToInstance } from 'class-transformer';
 import { ClientsPreorder } from './entities/clients-preorder.entity';
 import { ProductPreview } from '../products/entities/product-preview.entity';
+import { MailerService } from '@nestjs-modules/mailer';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ClientsPreordersService {
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly mailerService: MailerService,
+    private readonly configService: ConfigService
+  ) {}
 
   public async create(createClientsPreorderDto: CreateClientsPreorderDto) {
-    
-    let result;
 
+    let result;
     try {
       result = await this.prisma.clientsPreorder.create({
         data: {
@@ -25,7 +30,8 @@ export class ClientsPreordersService {
           productId: createClientsPreorderDto.productId,
           isMediaRequired: createClientsPreorderDto.isMediaRequired,
           comment: createClientsPreorderDto.comment,
-          localeId: createClientsPreorderDto.localeId
+          localeId: createClientsPreorderDto.localeId,
+          userEmailNotificationsAllowed: true
         },
         include: {
           product: true
@@ -43,7 +49,53 @@ export class ClientsPreordersService {
     };
 
     result.product = plainToInstance(ProductPreview, result.product);
-    return plainToInstance(ClientsPreorder, result);
+    const clientPreorder = plainToInstance(ClientsPreorder, result);
+
+    // Отправка email администрации сайта
+    if (this.configService.get<boolean>('EMAIL_SENDING_ENABLED')) {
+      this.mailerService.sendMail({
+        to: 'l.gofshteyn@gmail.com',
+        subject: 'Заявка с сайта PANTAREI.CO.IL',
+        template: 'email-notifications/client-preorders-notifications/client-preorder-notification.ejs',
+        context: {
+            firstName: clientPreorder.firstName,
+            lastName: clientPreorder.lastName,
+            phone: clientPreorder.phone,
+            email: clientPreorder.email,
+            comment: clientPreorder.comment,
+            isMediaRequired: clientPreorder.isMediaRequired,
+            product: clientPreorder.product.displayName,
+            localeId: clientPreorder.localeId
+        }
+      }).catch(e => {
+        Logger.error('Ошибка при уведомлении администрации сайта о полученной заявке от клиента');
+        Logger.error(e);
+      });
+
+      try {
+        if (clientPreorder.email && result.userEmailNotificationsAllowed)
+          this.mailerService.sendMail({
+            to: clientPreorder.email,
+            subject: 'Заявка с сайта PANTAREI.CO.IL',
+            template: `email-notifications/client-preorders-notifications/client-preorder-confirmation.${clientPreorder.localeId}.ejs`,
+            context: {
+              firstName: clientPreorder.firstName,
+              lastName: clientPreorder.lastName,
+              phone: clientPreorder.phone,
+              email: clientPreorder.email,
+              comment: clientPreorder.comment,
+              isMediaRequired: clientPreorder.isMediaRequired,
+              product: clientPreorder.product.displayName,
+              localeId: clientPreorder.localeId
+            }
+          });
+      } catch (e) {
+        Logger.error('Ошибка при уведомлении клиента о полученной заявке от клиента');
+        Logger.error(e);
+      };
+    };
+
+    return clientPreorder;
   }
 
   public findAll() {

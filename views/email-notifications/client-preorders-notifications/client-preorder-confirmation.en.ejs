@@ -1,0 +1,35 @@
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; }
+        .header { font-size: 20px; font-weight: bold; color: #007bff; }
+        .info { margin-top: 15px; }
+        .footer { margin-top: 20px; font-size: 14px; color: #777; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p class="header">Ваша заявка принята!</p>
+        <p>Здравствуйте, <%= locals.firstName %>!</p>
+        <p>Ваша заявка на услугу "<%= locals.product %>" успешно принята. Мы свяжемся с вами в ближайшее время.</p>
+        
+        <div class="info">
+            <p><strong>Контактные данные:</strong></p>
+            <p>Email: <%= locals.email %></p>
+            <p>Телефон: <%= locals.phone || "Не указан" %></p>
+        </div>
+
+        <% if (locals.comment) { %>
+        <div class="info">
+            <p><strong>Комментарий:</strong></p>
+            <p><%= locals.comment %></p>
+        </div>
+        <% } %>
+
+        <div class="footer">
+            <p>С уважением, команда PANTAREI.CO.IL</p>
+        </div>
+    </div>
+</body>
+</html>

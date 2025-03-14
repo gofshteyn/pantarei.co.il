@@ -199,21 +199,22 @@ model Product {
 }
 
 model ClientsPreorder {
-  id               String         @id @default(uuid()) @map("id") @db.Uuid
-  registrationDate DateTime       @default(now()) @map("registration_date")
-  userId           String?        @map("user_id") @db.Uuid
-  firstName        String?        @map("first_name") @db.VarChar(100)
-  lastName         String?        @map("lastName") @db.VarChar(100)
-  phone            String?        @map("phone") @db.VarChar(15)
-  email            String?        @map("email") @db.VarChar(255)
-  comment          String?        @db.Text
-  productId        String         @map("product_id") @db.Uuid
-  localeId         String?        @map("locale_id") @db.Char(2)
-  isMediaRequired  Boolean        @default(false) @map("is_media_required")
-  status           PreorderStatus @default(pending) @map("status")
-  createdAt        DateTime       @default(now()) @map("created_at")
-  updatedAt        DateTime?      @updatedAt @map("updated_at")
-  deletedAt        DateTime?      @map("deleted_at")
+  id                            String         @id @default(uuid()) @map("id") @db.Uuid
+  registrationDate              DateTime       @default(now()) @map("registration_date")
+  userId                        String?        @map("user_id") @db.Uuid
+  firstName                     String?        @map("first_name") @db.VarChar(100)
+  lastName                      String?        @map("lastName") @db.VarChar(100)
+  phone                         String?        @map("phone") @db.VarChar(15)
+  email                         String?        @map("email") @db.VarChar(255)
+  comment                       String?        @db.Text
+  productId                     String         @map("product_id") @db.Uuid
+  localeId                      String?        @map("locale_id") @db.Char(2)
+  isMediaRequired               Boolean        @default(false) @map("is_media_required")
+  status                        PreorderStatus @default(pending) @map("status")
+  userEmailNotificationsAllowed Boolean        @default(true) @map("user_email_notifications_allowed")
+  createdAt                     DateTime       @default(now()) @map("created_at")
+  updatedAt                     DateTime?      @updatedAt @map("updated_at")
+  deletedAt                     DateTime?      @map("deleted_at")
 
   // Связи с таблицами
   locale  Locale? @relation(fields: [localeId], references: [languageId])

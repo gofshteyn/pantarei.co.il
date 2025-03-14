@@ -58,4 +58,7 @@ export class ClientsPreorder {
     @Exclude()
     deletedAt: string;
 
+    @Exclude()
+    userEmailNotificationsAllowed: boolean;
+
 }
