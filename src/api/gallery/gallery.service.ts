@@ -27,7 +27,7 @@ export class GalleryService {
 
       const response = await firstValueFrom(
         this.httpService.get(
-          `${this.instagramApiUrl}?fields=permalink,media_url&access_token=${this.accessToken}&limit=9`
+          `${this.instagramApiUrl}?fields=permalink,media_url,thumbnail_url&access_token=${this.accessToken}&limit=9`
         )
       );
       
@@ -41,8 +41,8 @@ export class GalleryService {
 
       const transformedData = response.data.data.map(item => {
         // Удаляем поле id и переименовываем media_url в mediaUrl
-        const { id, media_url, ...rest } = item;
-        return { ...rest, mediaUrl: media_url }; // Переименовываем поле
+        const { id, media_url, thumbnail_url, ...rest } = item;
+        return { ...rest, mediaUrl: thumbnail_url }; // Переименовываем поле
       });
 
       return transformedData;

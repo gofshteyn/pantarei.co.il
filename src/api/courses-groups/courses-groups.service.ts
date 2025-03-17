@@ -9,6 +9,8 @@ import { CourseSuggestion } from '../courses/entities/course-suggestion.entity';
 import { Product } from '../products/entities/product.entity';
 import { Currency } from '../currencies/entities/currency.entity';
 import { take } from 'rxjs';
+import { Decimal } from '@prisma/client/runtime/library';
+import { Price } from '@prisma/client';
 
 @Injectable()
 export class CoursesGroupsService {
@@ -33,7 +35,6 @@ export class CoursesGroupsService {
     if (expand?.includes('courses'))
       includeOptions.courses = {
         include: {
-          product: true,
           features: {
             orderBy: {
               position: 'asc'
