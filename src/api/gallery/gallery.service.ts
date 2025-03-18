@@ -31,9 +31,6 @@ export class GalleryService {
         )
       );
       
-      // Логируем ответ API для проверки
-      console.log('API Response:', response.data);
-      
       // Проверяем наличие данных
       if (!response.data || !response.data.data) {
         throw new BadRequestException('Нет данных о медиа в ответе API');
