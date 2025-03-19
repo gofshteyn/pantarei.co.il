@@ -71,12 +71,16 @@ model Price {
 enum PriceType {
   sale
   purchase
+
+  @@map("price_type")
 }
 
 enum PriceMode {
   exact // Точный
   from // От
   to // До
+
+  @@map("price_mode")
 }
 
 model CoursesGroup {
@@ -178,7 +182,7 @@ model ProductsGroup {
 model Product {
   id                 String            @id @default(uuid()) @db.Uuid
   code               String?           @unique @db.VarChar(20)
-  productGroupId     String?           @db.Char(36)
+  productGroupId     String?           @map("product_group_id") @db.Char(36)
   group              ProductsGroup?    @relation("GroupProducts", fields: [productGroupId], references: [id])
   courses            Course[]          @relation("CourseProduct")
   excursions         Excursion[]       @relation("ExcursionProduct")
@@ -203,7 +207,7 @@ model ClientsPreorder {
   registrationDate              DateTime       @default(now()) @map("registration_date")
   userId                        String?        @map("user_id") @db.Uuid
   firstName                     String?        @map("first_name") @db.VarChar(100)
-  lastName                      String?        @map("lastName") @db.VarChar(100)
+  lastName                      String?        @map("last_name") @db.VarChar(100)
   phone                         String?        @map("phone") @db.VarChar(15)
   email                         String?        @map("email") @db.VarChar(255)
   comment                       String?        @db.Text
@@ -226,7 +230,7 @@ model ClientsPreorder {
 model Excursion {
   id                 String                @id @default(uuid()) @db.Char(36)
   code               String?               @unique @db.VarChar(20)
-  productId          String                @db.Uuid
+  productId          String                @map("product_id") @db.Uuid
   product            Product               @relation("ExcursionProduct", fields: [productId], references: [id])
   displayName        String                @map("display_name") @db.VarChar(100)
   displayNameLocales Json?                 @map("display_name_locales")
@@ -249,7 +253,7 @@ model Excursion {
 
 model ExcursionFeature {
   id                 String    @id @default(uuid()) @db.Char(36)
-  excursionId        String    @db.Char(36)
+  excursionId        String    @map("excursion_id") @db.Char(36)
   excursion          Excursion @relation(fields: [excursionId], references: [id], onDelete: Cascade)
   description        String    @db.VarChar(255) // Например, "Доступно детям от 8 лет"
   descriptionLocales Json?     @map("description_locales")
@@ -263,7 +267,7 @@ model ExcursionFeature {
 
 model ExcursionInclusion {
   id                 String    @id @default(uuid()) @db.Char(36)
-  excursionId        String    @db.Char(36)
+  excursionId        String    @map("excursion_id") @db.Char(36)
   excursion          Excursion @relation(fields: [excursionId], references: [id], onDelete: Cascade)
   description        String    @db.VarChar(255) // Например, "Страховка"
   descriptionLocales Json?     @map("description_locales")
@@ -277,7 +281,7 @@ model ExcursionInclusion {
 
 model ExcursionSuggestion {
   id                 String    @id @default(uuid()) @db.Char(36)
-  excursionId        String    @db.Char(36)
+  excursionId        String    @map("excursion_id") @db.Char(36)
   excursion          Excursion @relation(fields: [excursionId], references: [id], onDelete: Cascade)
   description        String    @db.VarChar(255) // Например, "Бутылка воды"
   descriptionLocales Json?     @map("description_locales")
