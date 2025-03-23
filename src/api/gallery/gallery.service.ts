@@ -39,7 +39,7 @@ export class GalleryService {
       const transformedData = response.data.data.map(item => {
         // Удаляем поле id и переименовываем media_url в mediaUrl
         const { id, media_url, thumbnail_url, ...rest } = item;
-        return { ...rest, mediaUrl: thumbnail_url }; // Переименовываем поле
+        return { ...rest, mediaUrl: thumbnail_url || media_url }; // Переименовываем поле
       });
 
       return transformedData;
