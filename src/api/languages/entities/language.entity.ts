@@ -18,8 +18,11 @@ export class Language {
     imageUrl: string;
 
     @Exclude()
-    createdAt: Date
+    createdAt: Date;
 
     @Exclude()
-    updatedAt: Date
+    updatedAt: Date;
+
+    @Exclude()
+    deletedAt: Date;
 }
