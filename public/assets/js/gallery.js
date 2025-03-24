@@ -1,4 +1,4 @@
-var gallery_url  =  "http://34.165.107.157/api/gallery";
+var gallery_url  =  "https://pantarei.co.il/api/gallery";
 function img_html(img, url = "") {
     if(url == "") {
         return '<img src="'+img+'" alt="">'

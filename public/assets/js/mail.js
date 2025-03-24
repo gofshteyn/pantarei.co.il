@@ -1,4 +1,4 @@
-var clients_preorders  =  "http://34.165.107.157/api/clients-preorders";
+var clients_preorders  =  "https://pantarei.co.il/api/clients-preorders";
 
 $("body form").submit(function(e) {
     e.preventDefault()
