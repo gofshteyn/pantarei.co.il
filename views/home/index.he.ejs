@@ -815,15 +815,17 @@
                 <h2>אל תהססו! התחל לצלול איתנו!</h2>
                 <form action="/">
                     <div class="form-application__column">
-                        <input type="text" name="name" class="form-text" placeholder="השם שלך *" required>
+                        <input type="text" name="firstName" class="form-text" placeholder="השם שלך *" required>
                         <input type="text" name="phone" class="form-text" placeholder="הטלפון שלך *" required>
                     </div>
                     <div class="form-application__column">
                         <div class="form-application__check">
-                            <input type="checkbox" id="form-application-check1" name="foto" value="אני רוצה צילום ווידאו מתחת למים">
+                            <input type="checkbox" id="form-application-check1" name="isMediaRequired" value="1">
                             <label for="form-application-check1">אני רוצה צילום ווידאו מתחת למים</label>
                         </div>
                         <input type="submit" class="button button-2" value="השאירו בקשה">
+                        <input type="hidden" name="productId" value="d4e7a9b3-5c2f-48f1-9d8a-6b3c7e1f25a4">
+                        <input type="hidden" name="localeId" value="he">
                     </div>
                     <p class="form-application__success">הנתונים נשלחים בהצלחה, אנו נחזור אליך בקרוב.</p>
                 </form>
@@ -1114,15 +1116,17 @@
                 <h2>פתח את ילדיך לעולם חדש ויעניק להם חוויה בלתי <br>נשכחת!</h2>
                 <form action="/">
                     <div class="form-application__column">
-                        <input type="text" name="name" class="form-text" placeholder="השם שלך *" required>
+                        <input type="text" name="firstName" class="form-text" placeholder="השם שלך *" required>
                         <input type="text" name="phone" class="form-text" placeholder="הטלפון שלך *" required>
                     </div>
                     <div class="form-application__column">
                         <div class="form-application__check">
-                            <input type="checkbox" id="form-application-check2" name="foto" value="אני רוצה צילום ווידאו מתחת למים">
+                            <input type="checkbox" id="form-application-check2" name="isMediaRequired" value="1">
                             <label for="form-application-check2">אני רוצה צילום ווידאו מתחת למים</label>
                         </div>
                         <input type="submit" class="button button-2" value="השאירו בקשה">
+                        <input type="hidden" name="productId" value="d4e7a9b3-5c2f-48f1-9d8a-6b3c7e1f25a4">
+                        <input type="hidden" name="localeId" value="he">
                     </div>
                     <p class="form-application__success">הנתונים נשלחים בהצלחה, אנו נחזור אליך בקרוב.</p>
                 </form>
@@ -1241,21 +1245,21 @@
                 <h3 class="popup__title" data-title="צללו איתנו!">צללו איתנו!</h3>
                 <p class="popup__subtitle">הבחירה שלך: <b></b></p>
                 <form action="/">
-                    <input type="text" name="name" class="input-text" placeholder="השם שלך *" required>
+                    <input type="text" name="firstName" class="input-text" placeholder="השם שלך *" required>
                     <div class="form__row">
                         <input type="text" name="phone" class="input-text" placeholder="הטלפון שלך">
                         <input type="text" name="email" class="input-text" placeholder="הדואר שלך">
                     </div>
                     <p class="popup__error">עליך לציין טלפון או דואר</p>
-                    <textarea name="messang" class="input-text" placeholder="ההודעה שלך"></textarea>
+                    <textarea name="comment" class="input-text" placeholder="ההודעה שלך"></textarea>
                     <div class="check">
-                        <input type="checkbox" name="foto" id="popup-check" value="אני רוצה צילום ווידאו מתחת למים">
+                        <input type="checkbox" name="isMediaRequired" id="popup-check" value="1">
                         <label for="popup-check">אני רוצה צילום ווידאו מתחת למים</label>
                     </div>
                     <input type="submit" value="לִשְׁלוֹחַ" class="button">
                     <input type="hidden" name="select" value="">
-                    <input type="hidden" name="product" value="">
-                    <input type="hidden" name="local" value="he">
+                    <input type="hidden" name="productId" value="">
+                    <input type="hidden" name="localeId" value="he">
                     <p class="popup__success">הנתונים נשלחים בהצלחה, אנו נחזור אליך בקרוב.</p>
                 </form>
             </div>
@@ -1296,6 +1300,7 @@
     <script src="./assets/js/jquery.nicescroll.js"></script>
     <script src="./assets/js/main.js?ver=10"></script>
     <script src="./assets/js/gallery.js?ver=10"></script>
+    <script src="./assets/js/mail.js?ver=10"></script>
     
 
     <script>

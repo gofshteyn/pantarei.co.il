@@ -813,15 +813,17 @@
                 <h2>Don't doubt it! Start diving with us!</h2>
                 <form action="/">
                     <div class="form-application__column">
-                        <input type="text" name="name" class="form-text" placeholder="Your name *" required>
+                        <input type="text" name="firstName" class="form-text" placeholder="Your name *" required>
                         <input type="text" name="phone" class="form-text" placeholder="Your phone *" required>
                     </div>
                     <div class="form-application__column">
                         <div class="form-application__check">
-                            <input type="checkbox" id="form-application-check1" name="foto" value="I want to take photos and videos underwater">
+                            <input type="checkbox" id="form-application-check1" name="isMediaRequired" value="1">
                             <label for="form-application-check1">I want to take photos and videos underwater</label>
                         </div>
                         <input type="submit" class="button button-2" value="Send an order">
+                        <input type="hidden" name="productId" value="d4e7a9b3-5c2f-48f1-9d8a-6b3c7e1f25a4">
+                        <input type="hidden" name="localeId" value="en">
                     </div>
                     <p class="form-application__success">The data has been successfully sent, we will contact you shortly.</p>
                 </form>
@@ -1112,15 +1114,17 @@
                 <h2>Open up a new world to your children and <br>give them an unforgettable experience!</h2>
                 <form action="/">
                     <div class="form-application__column">
-                        <input type="text" name="name" class="form-text" placeholder="Your name *" required>
+                        <input type="text" name="firstName" class="form-text" placeholder="Your name *" required>
                         <input type="text" name="phone" class="form-text" placeholder="Your phone *" required>
                     </div>
                     <div class="form-application__column">
                         <div class="form-application__check">
-                            <input type="checkbox" id="form-application-check2" name="foto" value="I want to take photos and videos underwater">
+                            <input type="checkbox" id="form-application-check2" name="isMediaRequired" value="1">
                             <label for="form-application-check2">I want to take photos and videos underwater</label>
                         </div>
                         <input type="submit" class="button button-2" value="Send an order">
+                        <input type="hidden" name="productId" value="d4e7a9b3-5c2f-48f1-9d8a-6b3c7e1f25a4">
+                        <input type="hidden" name="localeId" value="en">
                     </div>
                     <p class="form-application__success">The data has been successfully sent, we will contact you shortly.</p>
                 </form>
@@ -1239,21 +1243,21 @@
                 <h3 class="popup__title" data-title="Dive with us!">Dive with us!</h3>
                 <p class="popup__subtitle">Your choice: <b></b></p>
                 <form action="/">
-                    <input type="text" name="name" class="input-text" placeholder="Your name *" required>
+                    <input type="text" name="firstName" class="input-text" placeholder="Your name *" required>
                     <div class="form__row">
                         <input type="text" name="phone" class="input-text" placeholder="Your phone">
                         <input type="text" name="email" class="input-text" placeholder="Your E-mail">
                     </div>
                     <p class="popup__error">You must specify a phone number or email address.</p>
-                    <textarea name="messang" class="input-text" placeholder="Your message"></textarea>
+                    <textarea name="comment" class="input-text" placeholder="Your message"></textarea>
                     <div class="check">
-                        <input type="checkbox" name="foto" id="popup-check" value="I want to take photos and videos underwater">
+                        <input type="checkbox" name="isMediaRequired" id="popup-check" value="1">
                         <label for="popup-check">I want to take photos and videos underwater</label>
                     </div>
                     <input type="submit" value="Submit" class="button">
                     <input type="hidden" name="select" value="">
-                    <input type="hidden" name="product" value="">
-                    <input type="hidden" name="local" value="en">
+                    <input type="hidden" name="productId" value="">
+                    <input type="hidden" name="localeId" value="en">
                     <p class="popup__success">The data has been successfully sent, we will contact you shortly.</p>
                 </form>
             </div>
@@ -1294,6 +1298,7 @@
     <script src="./assets/js/jquery.nicescroll.js"></script>
     <script src="./assets/js/main.js?ver=10"></script>
     <script src="./assets/js/gallery.js?ver=10"></script>
+    <script src="./assets/js/mail.js?ver=10"></script>
 
     <script>
         var input_text = $("form input[name=name], form input[name=email]")

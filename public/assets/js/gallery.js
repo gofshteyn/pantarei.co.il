@@ -1,4 +1,4 @@
-
+var gallery_url  =  "http://34.165.107.157/api/gallery";
 function img_html(img, url = "") {
     if(url == "") {
         return '<img src="'+img+'" alt="">'
@@ -35,13 +35,11 @@ function img_render(urls, status) {
     }
 }
 
-
 function checkLinkAvailability(url, timeout = 6000) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeout);
 
-  
-    var url_page = url[0].mediaUrl
+    var url_page = url[1].mediaUrl
     fetch(url_page, {
         method: "GET",
         signal: controller.signal,
@@ -56,14 +54,31 @@ function checkLinkAvailability(url, timeout = 6000) {
         clearTimeout(timeoutId);
         img_render(url, "error")
     });
-
     
 }
 
+async function file_get_contents(uri, callback) {
+        await fetch(uri, {
+            method: 'GET',
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                img_render("", "empty")
+            }
+        }).then(json => {
+            checkLinkAvailability(json)
+        }).catch(function(error) {
+            img_render("", "empty")
+        });
+    }
 
-post_url()
-  
+file_get_contents(gallery_url);
+
+
+/*
 async function post_url() {
+
     await $.ajax({
         url: "gallery.php",
         type: "POST",
@@ -80,3 +95,22 @@ async function post_url() {
         }
     })
 }
+
+/*async function get_config() {
+        let response = await fetch('/assets/js/config.json');
+        if (response.ok) {
+            var cnf = await response.json();
+
+        } else {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return  cnf  ; // a Promise() actually.
+    }
+config = get_config();
+$(document).ready(function() {
+    console.log('dddd');
+    console.log(config);
+    console.log('dddd');
+})
+*/
+//post_url()

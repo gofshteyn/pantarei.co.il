@@ -811,15 +811,17 @@
                 <h2>Не сомневайся! Начни нырять вместе с нами!</h2>
                 <form action="/">
                     <div class="form-application__column">
-                        <input type="text" name="name" class="form-text" placeholder="Ваше имя *" required>
+                        <input type="text" name="firstName" class="form-text" placeholder="Ваше имя *" required>
                         <input type="text" name="phone" class="form-text" placeholder="Ваш телефон *" required>
                     </div>
                     <div class="form-application__column">
                         <div class="form-application__check">
-                            <input type="checkbox" id="form-application-check1" name="foto" value="Хочу фото- и видеосъемку под водой">
-                            <label for="form-application-check1">Хочу фото- и видеосъемку под водой</label>
+                            <input type="checkbox" id="form-application-check1" name="isMediaRequired" value="1">
+                            <label for="form-application-check1">Хочу фото и видеосъемку под водой</label>
                         </div>
                         <input type="submit" class="button button-2" value="Оставить заявку">
+                        <input type="hidden" name="productId" value="d4e7a9b3-5c2f-48f1-9d8a-6b3c7e1f25a4">
+                        <input type="hidden" name="localeId" value="ru">
                     </div>
                     <p class="form-application__success">Данные успешно отправлены, мы свяжемся с вами в ближайшее время.</p>
                 </form>
@@ -1116,15 +1118,17 @@
                 <h2>Открой своим детям новый мир и подари <br>им незабываемые впечатления!</h2>
                 <form action="/">
                     <div class="form-application__column">
-                        <input type="text" name="name" class="form-text" placeholder="Ваше имя *" required>
+                        <input type="text" name="firstName" class="form-text" placeholder="Ваше имя *" required>
                         <input type="text" name="phone" class="form-text" placeholder="Ваш телефон *" required>
                     </div>
                     <div class="form-application__column">
                         <div class="form-application__check">
-                            <input type="checkbox" id="form-application-check2" name="foto" value="Хочу фото- и видеосъемку под водой">
-                            <label for="form-application-check2">Хочу фото- и видеосъемку под водой</label>
+                            <input type="checkbox" id="form-application-check2" name="isMediaRequired" value="1">
+                            <label for="form-application-check2">Хочу фото и видеосъемку под водой</label>
                         </div>
                         <input type="submit" class="button button-2" value="Оставить заявку">
+                        <input type="hidden" name="productId" value="d4e7a9b3-5c2f-48f1-9d8a-6b3c7e1f25a4">
+                        <input type="hidden" name="localeId" value="ru">
                     </div>
                     <p class="form-application__success">Данные успешно отправлены, мы свяжемся с вами в ближайшее время.</p>
                 </form>
@@ -1243,21 +1247,21 @@
                 <h3 class="popup__title" data-title="Ныряй вместе с нами!">Ныряй вместе с нами!</h3>
                 <p class="popup__subtitle">Ваш выбор: <b>Ознакомительное погружение</b></p>
                 <form action="/">
-                    <input type="text" name="name" class="input-text" placeholder="Ваше имя *" required>
+                    <input type="text" name="firstName" class="input-text" placeholder="Ваше имя *" required>
                     <div class="form__row">
                         <input type="text" name="phone" class="input-text" placeholder="Ваш телефон">
                         <input type="text" name="email" class="input-text" placeholder="Ваша почта">
                     </div>
                     <p class="popup__error">Необходимо указать телефон или почту</p>
-                    <textarea name="messang" class="input-text" placeholder="Ваше сообщение"></textarea>
+                    <textarea name="comment" class="input-text" placeholder="Ваше сообщение"></textarea>
                     <div class="check">
-                        <input type="checkbox" name="foto" id="popup-check" value="Хочу фото- и видеосъемку под водой">
-                        <label for="popup-check">Хочу фото- и видеосъемку под водой</label>
+                        <input type="checkbox" name="isMediaRequired" id="popup-check" value="1">
+                        <label for="popup-check">Хочу фото и видеосъемку под водой</label>
                     </div>
                     <input type="submit" value="Отправить" class="button">
                     <input type="hidden" name="select" value="">
-                    <input type="hidden" name="product" value="">
-                    <input type="hidden" name="local" value="ru">
+                    <input type="hidden" name="productId" value="">
+                    <input type="hidden" name="localeId" value="ru">
                     <p class="popup__success">Данные успешно отправлены, мы свяжемся с вами в ближайшее время.</p>
                 </form>
             </div>
@@ -1298,6 +1302,7 @@
     <script src="./assets/js/jquery.nicescroll.js"></script>
     <script src="./assets/js/main.js?ver=10"></script>
     <script src="./assets/js/gallery.js?ver=10"></script>
+    <script src="./assets/js/mail.js?ver=10"></script>
 
     <script>
         var input_text = $("form input[name=name], form input[name=email]")
@@ -1311,6 +1316,6 @@
             InvalidInputHelper(element, {mess: 'Введите номер телефона'})
         }
     </script>
-    
+
 </body>
 </html>

@@ -15,36 +15,7 @@ document.addEventListener("scroll", function () {
     }
 });
 
-// $("body").niceScroll({
-//     cursoropacitymin: 1,
-//     zindex: "999999999999999999999999999999",
-//     cursorborderradius: "0",
-//     cursorwidth: "10px",
-//     cursorcolor: "#DA9B00",
-//     railalign: "right",
-//     cursorborder: "",
-//     railpadding: {
-//         top: 0,
-//         right: 0,
-//         left: 0,
-//         bottom: 0
-//     },
-//     background: "#fff",
-// });
 
-// $(".toggle-menu").niceScroll({
-//     cursoropacitymin: 1,
-//     cursorcolor: "#cecece",
-//     railalign: "right",
-//     cursorborder: "",
-//     railpadding: {
-//         top: 0,
-//         right: 0,
-//         left: 0,
-//         bottom: 0
-//     },
-//     background: "#fff",
-// }); 
 
 
 $(".select-course__menu a").click(function() {
@@ -122,7 +93,7 @@ $("body .show_popup_call").click(function() {
     $("#popup_call").show()
     var select = $(this).attr("data-select")
     var product = $(this).attr("data-product")
-    $(".popup__wrapp input[name=product]").val(product)
+    $(".popup__wrapp input[name=productId]").val(product)
 
     if(select != undefined && select != "") {
         $("#popup_call .popup__subtitle").show()
@@ -237,7 +208,7 @@ $("body .tplLocation__maps").click(function() {
     $("#popup_map").show()
 })
 
-
+/*
 $("body form").submit(function() {
     var form = $(this).serializeArray();
     var appl = $(this).parents(".form-application__wrapp")
@@ -268,7 +239,7 @@ $("body form").submit(function() {
     })
 
     return false;
-})
+})*/
 
 // $(document).ready(function() {
 //     $.ajax({
