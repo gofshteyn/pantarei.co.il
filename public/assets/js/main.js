@@ -69,8 +69,7 @@ $("a[href^='#']").click(function(){
     var _href = $(this).attr("href");
     $("html, body").animate({scrollTop: $(_href).offset().top+ - +100+"px"});
 
-    $("html").attr("style", "")
-    $("body").getNiceScroll().resize();
+    $("body").attr("style", "")
     $(".toggle-menu").removeClass("show")
     $(".toggle-menu-bg").hide()
 
