@@ -1,9 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Logger } from '@nestjs/common';
 import { ClientsPreordersService } from './clients-preorders.service';
 import { CreateClientsPreorderDto } from './dto/create-clients-preorder.dto';
-import { UpdateClientsPreorderDto } from './dto/update-clients-preorder.dto';
-import { AppService } from 'src/app.service';
 import { Request } from 'express';
+import { AppService } from 'src/app.service';
 
 @Controller('api/clients-preorders')
 export class ClientsPreordersController {
