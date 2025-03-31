@@ -23,7 +23,7 @@ export class WebServiceClientAdapter {
                 url: req.originalUrl,
                 method: req.method
             })}`);
-            throw new Error('Не удалось обнаружить IP пользователя.');
+            return 'unknow'
         };
         return ipAddress;
     };

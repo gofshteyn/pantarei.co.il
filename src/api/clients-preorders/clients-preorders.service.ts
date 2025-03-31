@@ -22,10 +22,15 @@ export class ClientsPreordersService {
 
   public async create(createClientsPreorderDto: CreateClientsPreorderDto, req: Request) {
     
-    const ipAddress = await this.webServiceClientAdapter.getIpAddress(req);
-    const location = await this.webServiceClientAdapter.getLocation(ipAddress);
-    Logger.log('Создаем заявку');
-    Logger.log(location);
+    let ipAddress;
+    let location;
+    
+    try {
+      ipAddress = await this.webServiceClientAdapter.getIpAddress(req);
+      location = await this.webServiceClientAdapter.getLocation(ipAddress);
+    } catch (e) {
+      Logger.log(e);
+    };
 
     let result;
     try {
@@ -39,6 +44,9 @@ export class ClientsPreordersService {
           isMediaRequired: createClientsPreorderDto.isMediaRequired,
           comment: createClientsPreorderDto.comment,
           localeId: createClientsPreorderDto.localeId,
+          ipAddress: ipAddress,
+          country: location.country,
+          city: location.city,
           userEmailNotificationsAllowed: true
         },
         include: {
