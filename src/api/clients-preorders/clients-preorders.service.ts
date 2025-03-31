@@ -23,8 +23,8 @@ export class ClientsPreordersService {
   public async create(createClientsPreorderDto: CreateClientsPreorderDto, req: Request) {
     const ipAddress = await this.webServiceClientAdapter.getIpAddress(req);
     const location = await this.webServiceClientAdapter.getLocation(ipAddress);
-    console.log('Создаем заявку');
-    console.log(location);
+    Logger.log('Создаем заявку');
+    Logger.log(location);
 
     let result;
     try {
