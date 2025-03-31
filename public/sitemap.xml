@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
     <url>
-        <loc>https://pantarei.co.il/</loc>
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://pantarei.co.il/"/>
-        <xhtml:link rel="alternate" hreflang="ru" href="https://pantarei.co.il/ru"/>
-        <xhtml:link rel="alternate" hreflang="en" href="https://pantarei.co.il/en"/>
-        <xhtml:link rel="alternate" hreflang="he" href="https://pantarei.co.il/he"/>
-        <priority>1.0</priority>
-        <changefreq>weekly</changefreq>
-    </url>
-    <url>
-        <loc>https://pantarei.co.il/he</loc>
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://pantarei.co.il/"/>
+        <loc>https://pantarei.co.il/he/</loc>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://pantarei.co.il/he/"/>
         <xhtml:link rel="alternate" hreflang="ru" href="https://pantarei.co.il/ru"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://pantarei.co.il/en"/>
         <xhtml:link rel="alternate" hreflang="he" href="https://pantarei.co.il/he"/>
@@ -19,21 +10,21 @@
         <changefreq>weekly</changefreq>
     </url>
     <url>
-        <loc>https://pantarei.co.il/en</loc>
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://pantarei.co.il/"/>
+        <loc>https://pantarei.co.il/en/</loc>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://pantarei.co.il/en/"/>
         <xhtml:link rel="alternate" hreflang="ru" href="https://pantarei.co.il/ru"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://pantarei.co.il/en"/>
         <xhtml:link rel="alternate" hreflang="he" href="https://pantarei.co.il/he"/>
-        <priority>0.8</priority>
+        <priority>0.9</priority>
         <changefreq>weekly</changefreq>
     </url>
     <url>
-        <loc>https://pantarei.co.il/ru</loc>
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://pantarei.co.il/"/>
+        <loc>https://pantarei.co.il/ru/</loc>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://pantarei.co.il/ru/"/>
         <xhtml:link rel="alternate" hreflang="ru" href="https://pantarei.co.il/ru"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://pantarei.co.il/en"/>
         <xhtml:link rel="alternate" hreflang="he" href="https://pantarei.co.il/he"/>
-        <priority>0.7</priority>
+        <priority>0.9</priority>
         <changefreq>weekly</changefreq>
     </url>
 </urlset>
