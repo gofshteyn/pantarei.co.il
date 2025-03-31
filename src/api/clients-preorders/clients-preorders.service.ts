@@ -21,6 +21,7 @@ export class ClientsPreordersService {
   ) {}
 
   public async create(createClientsPreorderDto: CreateClientsPreorderDto, req: Request) {
+    
     const ipAddress = await this.webServiceClientAdapter.getIpAddress(req);
     const location = await this.webServiceClientAdapter.getLocation(ipAddress);
     Logger.log('Создаем заявку');
@@ -72,7 +73,9 @@ export class ClientsPreordersService {
             comment: clientPreorder.comment,
             isMediaRequired: clientPreorder.isMediaRequired,
             product: clientPreorder.product.displayName,
-            localeId: clientPreorder.localeId
+            localeId: clientPreorder.localeId,
+            ipAddress: ipAddress,
+            location: location
         }
       }).catch(e => {
         Logger.error('Ошибка при уведомлении администрации сайта о полученной заявке от клиента');
