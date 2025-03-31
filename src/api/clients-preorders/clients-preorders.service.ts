@@ -7,6 +7,8 @@ import { ClientsPreorder } from './entities/clients-preorder.entity';
 import { ProductPreview } from '../products/entities/product-preview.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
+import { WebServiceClientAdapter } from 'src/geo-location/web-service-client.adapter';
+import { Request } from 'express';
 
 @Injectable()
 export class ClientsPreordersService {
@@ -14,10 +16,14 @@ export class ClientsPreordersService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly mailerService: MailerService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
+    private readonly webServiceClientAdapter: WebServiceClientAdapter
   ) {}
 
-  public async create(createClientsPreorderDto: CreateClientsPreorderDto) {
+  public async create(createClientsPreorderDto: CreateClientsPreorderDto, req: Request) {
+    const ipAddress = await this.webServiceClientAdapter.getIpAddress(req);
+    const location = await this.webServiceClientAdapter.getLocation(ipAddress);
+    console.log(location);
 
     let result;
     try {

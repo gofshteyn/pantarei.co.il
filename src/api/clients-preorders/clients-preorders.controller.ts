@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Logger } from '
 import { ClientsPreordersService } from './clients-preorders.service';
 import { CreateClientsPreorderDto } from './dto/create-clients-preorder.dto';
 import { Request } from 'express';
-import { AppService } from 'src/app.service';
 
 @Controller('api/clients-preorders')
 export class ClientsPreordersController {
@@ -12,7 +11,7 @@ export class ClientsPreordersController {
 
   @Post()
   public async create(@Body() createClientsPreorderDto: CreateClientsPreorderDto, @Req() req: Request) {
-    return await this.clientsPreordersService.create(createClientsPreorderDto);
+    return await this.clientsPreordersService.create(createClientsPreorderDto, req);
   }
 
   @Get()

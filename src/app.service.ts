@@ -2,7 +2,6 @@ import { Injectable, Logger } from '@nestjs/common';
 import { WebServiceClient } from '@maxmind/geoip2-node';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
-import { PrismaClient } from '@prisma/client';
 import { PrismaService } from './prisma/prisma.service';
 
 @Injectable()
@@ -37,7 +36,7 @@ export class AppService {
       req.socket.remoteAddress || 'unknown';
 
     if (ipAddress === 'unknown' || ipAddress.startsWith('127.') || ipAddress === '::1' || ipAddress.startsWith('::ffff:127.') || ipAddress === '127.0.0.1') {
-      Logger.warn(`Не удалось обнаружить язык пользователя. ${JSON.stringify({
+      Logger.warn(`Не удалось обнаружить IP пользователя. ${JSON.stringify({
         acceptLanguage,
         ipAddress,
         url: req.originalUrl,
