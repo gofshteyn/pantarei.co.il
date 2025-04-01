@@ -1,6 +1,4 @@
-import { Injectable } from '@nestjs/common';
-import { CreateLanguageDto } from './dto/create-language.dto';
-import { UpdateLanguageDto } from './dto/update-language.dto';
+import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
 import { Language } from './entities/language.entity';
@@ -9,12 +7,46 @@ import { Language } from './entities/language.entity';
 export class LanguagesService {
 
   constructor (private readonly prismaService: PrismaService) {}
-  
-  // create(createLanguageDto: CreateLanguageDto) {
-  //   return 'This action adds a new language';
-  // }
 
-  public async findAll(): Promise<Language[]> {
+  public async findAllLocalized(lang: string): Promise<Language[]> {
+    const result = await this.prismaService.language.findMany({
+      select: {
+        id: true,
+        code: true,
+        displayName: true,
+        displayNameLocales: true,
+        imageUrl: true
+      },
+      orderBy: {
+        id: 'asc'
+      }
+    });
+    
+    return result.map(item => {
+      let locales: Record<string, string> = {};
+
+      try {
+        if (typeof item.displayNameLocales === 'string') {
+          locales = JSON.parse(item.displayNameLocales);
+        } else if (item.displayNameLocales && typeof item.displayNameLocales === 'object') {
+          locales = item.displayNameLocales as Record<string, string>;
+        }
+      } catch (error) {
+        Logger.error(`Failed to parse locales for language ${item.code}:`, error);
+      };
+
+      return plainToInstance(Language, {
+        ...item,
+        displayName: locales[lang] || item.displayName,
+        displayNameLocales: undefined
+      });
+    });
+  }
+
+  public async findAll(lang?: string): Promise<Language[]> {
+    if (lang)
+      return this.findAllLocalized(lang);
+
     const result = await this.prismaService.language.findMany({
       select: {
         id: true,
@@ -29,16 +61,4 @@ export class LanguagesService {
     });
     return plainToInstance(Language, result);
   }
-
-  // findOne(id: number) {
-  //   return `This action returns a #${id} language`;
-  // }
-
-  // update(id: number, updateLanguageDto: UpdateLanguageDto) {
-  //   return `This action updates a #${id} language`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} language`;
-  // }
 }
