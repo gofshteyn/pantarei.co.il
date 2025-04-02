@@ -1,5 +1,6 @@
 import { Currency } from "@prisma/client";
 import { Exclude, Expose } from "class-transformer";
+import { ProductsGroup } from "src/api/products-groups/entities/products-group.entity";
 
 export class Product {
 
@@ -26,6 +27,9 @@ export class Product {
 
     @Expose()
     isService: boolean;
+
+    @Expose()
+    group: ProductsGroup;
 
     @Expose()
     position: number;

@@ -1,16 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CoursesGroup } from './entities/courses-group.entity';
-import { plainToInstance } from 'class-transformer';
-import { Course } from '../courses/entities/course.entity';
-import { CourseFeature } from '../courses/entities/course-feature.entity';
-import { CourseInclusion } from '../courses/entities/course-inclusion.entity';
-import { CourseSuggestion } from '../courses/entities/course-suggestion.entity';
-import { Product } from '../products/entities/product.entity';
-import { Currency } from '../currencies/entities/currency.entity';
-import { take } from 'rxjs';
-import { Decimal } from '@prisma/client/runtime/library';
-import { Price } from '@prisma/client';
 
 interface RawCourseGroupResult {
   group_id: string;

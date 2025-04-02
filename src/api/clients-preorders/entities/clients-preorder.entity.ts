@@ -60,5 +60,4 @@ export class ClientsPreorder {
 
     @Exclude()
     userEmailNotificationsAllowed: boolean;
-
 }

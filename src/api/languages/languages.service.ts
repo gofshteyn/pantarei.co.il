@@ -9,18 +9,7 @@ export class LanguagesService {
   constructor (private readonly prismaService: PrismaService) {}
 
   public async findAllLocalized(lang: string): Promise<Language[]> {
-    const result = await this.prismaService.language.findMany({
-      select: {
-        id: true,
-        code: true,
-        displayName: true,
-        displayNameLocales: true,
-        imageUrl: true
-      },
-      orderBy: {
-        id: 'asc'
-      }
-    });
+    const result = await this.findAll();
     
     return result.map(item => {
       let locales: Record<string, string> = {};
@@ -32,7 +21,7 @@ export class LanguagesService {
           locales = item.displayNameLocales as Record<string, string>;
         }
       } catch (error) {
-        Logger.error(`Failed to parse locales for language ${item.code}:`, error);
+        Logger.error(`Failed to parse locales for locale ${item.id}:`, error);
       };
 
       return plainToInstance(Language, {

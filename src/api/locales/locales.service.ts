@@ -9,15 +9,7 @@ export class LocalesService {
   constructor (private readonly prismaService: PrismaService) {}
 
   public async findAllLocalize(lang: string): Promise<Locale[]> {
-    const result = await this.prismaService.locale.findMany({
-      select: {
-        language: true,
-        isDefault: true
-      },
-      orderBy: {
-        languageId: 'asc'
-      }
-    });
+    const result = await this.findAll();
 
     return result.map(item => {
       let locales: Record<string, string> = {};
