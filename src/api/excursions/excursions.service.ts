@@ -12,6 +12,10 @@ export class ExcursionsService {
 
   constructor (private readonly prismaService: PrismaService) {}
 
+  public async findAllLocalized(): Promise<Excursion[]> {
+    return await this.findAll();
+  };
+
   public async findAll(): Promise<Excursion[]> {
     const today = new Date();
 
