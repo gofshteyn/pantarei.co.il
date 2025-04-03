@@ -63,7 +63,8 @@ export class ProductsService {
   public async findAll(): Promise<Product[]> {
     const result = await this.prismaService.product.findMany({
       include: {
-        group: true
+        group: true,
+        prices: true
       },
       orderBy: {
         position: 'asc'

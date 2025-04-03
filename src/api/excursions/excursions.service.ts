@@ -12,7 +12,7 @@ export class ExcursionsService {
 
   constructor (private readonly prismaService: PrismaService) {}
 
-  public async findAllLocalized(): Promise<Excursion[]> {
+  public async findAllLocalized(lang: string): Promise<Excursion[]> {
     return await this.findAll();
   };
 
@@ -24,50 +24,66 @@ export class ExcursionsService {
         where: { isDefault: true, deletedAt: null }
     }));
 
-    // Запрашиваем экскурсии с вложенными данными
     const excursions = await this.prismaService.excursion.findMany({
       include: {
         product: {
           include: {
-            prices: {
-              where: {
-                currencyId: defaultCurrency.id,
-                priceType: 'sale',
-                deletedAt: null,
-                startDate: { lte: today },
-                endDate: { gte: today },
-              },
-              take: 1
-            }
+            prices: true
           }
-        },
-        features: { orderBy: { position: 'asc' } },
-        inclusions: { orderBy: { position: 'asc' } },
-        suggestions: { orderBy: { position: 'asc' } }
-      },
-      orderBy: { position: 'asc' }
-    });
-
-    return excursions.map(excursion => {
-      // Берем первую цену (если есть) и приводим к нужному формату
-      const priceData = excursion.product?.prices?.[0] || null;
-      const defaultPrice  = priceData
-        ? {
-          price: priceData.price.toNumber(),
-          priceMode: priceData.priceMode,
-          currency: defaultCurrency ? plainToInstance(Currency, defaultCurrency) : null
         }
-          : null;
-
-      // Преобразуем в экземпляры классов и убираем ненужное поле `product`
-      return plainToInstance(Excursion, {
-        ...excursion,
-        defaultPrice,
-        product: undefined,
-        features: plainToInstance(ExcursionFeature, excursion.features),
-        inclusions: plainToInstance(ExcursionInclusion, excursion.inclusions),
-        suggestions: plainToInstance(ExcursionSuggestion, excursion.suggestions)
-      });
+      },
+      orderBy: {
+        position: 'asc'
+      }
     });
-  }
+
+    return plainToInstance(Excursion, excursions);
+  };
+
+  //   // Запрашиваем экскурсии с вложенными данными
+  //   const excursions = await this.prismaService.excursion.findMany({
+  //     include: {
+  //       product: {
+  //         include: {
+  //           prices: {
+  //             where: {
+  //               currencyId: defaultCurrency.id,
+  //               priceType: 'sale',
+  //               deletedAt: null,
+  //               startDate: { lte: today },
+  //               endDate: { gte: today },
+  //             },
+  //             take: 1
+  //           }
+  //         }
+  //       },
+  //       features: { orderBy: { position: 'asc' } },
+  //       inclusions: { orderBy: { position: 'asc' } },
+  //       suggestions: { orderBy: { position: 'asc' } }
+  //     },
+  //     orderBy: { position: 'asc' }
+  //   });
+
+  //   return excursions.map(excursion => {
+  //     // Берем первую цену (если есть) и приводим к нужному формату
+  //     const priceData = excursion.product?.prices?.[0] || null;
+  //     const defaultPrice  = priceData
+  //       ? {
+  //         price: priceData.price.toNumber(),
+  //         priceMode: priceData.priceMode,
+  //         currency: defaultCurrency ? plainToInstance(Currency, defaultCurrency) : null
+  //       }
+  //         : null;
+
+  //     // Преобразуем в экземпляры классов и убираем ненужное поле `product`
+  //     return plainToInstance(Excursion, {
+  //       ...excursion,
+  //       defaultPrice,
+  //       product: undefined,
+  //       features: plainToInstance(ExcursionFeature, excursion.features),
+  //       inclusions: plainToInstance(ExcursionInclusion, excursion.inclusions),
+  //       suggestions: plainToInstance(ExcursionSuggestion, excursion.suggestions)
+  //     });
+  //   });
+  // }
 }

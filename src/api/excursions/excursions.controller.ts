@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req } from '@nestjs/common';
+import { Controller, Get, Req } from '@nestjs/common';
 import { ExcursionsService } from './excursions.service';
 import { Excursion } from './entities/excursion.entity';
 import { Request } from 'express';
@@ -10,6 +10,7 @@ export class ExcursionsController {
   @Get()
   public async findAll(@Req() req: Request): Promise<Excursion[]> {
     if (req.query?.lang && typeof req.query.lang === 'string')
+      return await this.excursionsService.findAllLocalized(req.query.lang);
     return await this.excursionsService.findAll();
   }
 }
