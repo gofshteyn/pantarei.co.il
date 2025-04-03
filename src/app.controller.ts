@@ -9,7 +9,7 @@ export class AppController {
   @Get()
   async home(@Req() req: Request, @Res() res: Response): Promise<void> {
     const lang = await this.appService.detectLocalization(req);
-    return res.redirect(`/${lang}`);
+    return res.redirect(`/${lang}/`);
   }
 
   @Get('ru')
