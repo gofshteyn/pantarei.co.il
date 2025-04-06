@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
     <url>
         <loc>https://pantarei.co.il/</loc>
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://pantarei.co.il/"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://pantarei.co.il/en/"/>
         <xhtml:link rel="alternate" hreflang="he" href="https://pantarei.co.il/he/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://pantarei.co.il/en/"/>
         <xhtml:link rel="alternate" hreflang="ru" href="https://pantarei.co.il/ru/"/>
@@ -11,7 +11,7 @@
         </url>
     <url>
         <loc>https://pantarei.co.il/he/</loc>
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://pantarei.co.il/"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://pantarei.co.il/en/"/>
         <xhtml:link rel="alternate" hreflang="he" href="https://pantarei.co.il/he/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://pantarei.co.il/en/"/>
         <xhtml:link rel="alternate" hreflang="ru" href="https://pantarei.co.il/ru/"/>
@@ -20,7 +20,7 @@
     </url>
     <url>
         <loc>https://pantarei.co.il/en/</loc>
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://pantarei.co.il/"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://pantarei.co.il/en/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://pantarei.co.il/en/"/>
         <xhtml:link rel="alternate" hreflang="he" href="https://pantarei.co.il/he/"/>
         <xhtml:link rel="alternate" hreflang="ru" href="https://pantarei.co.il/ru/"/>
@@ -29,7 +29,7 @@
     </url>
     <url>
         <loc>https://pantarei.co.il/ru/</loc>
-        <xhtml:link rel="alternate" hreflang="x-default" href="https://pantarei.co.il/"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://pantarei.co.il/en/"/>
         <xhtml:link rel="alternate" hreflang="ru" href="https://pantarei.co.il/ru/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://pantarei.co.il/en/"/>
         <xhtml:link rel="alternate" hreflang="he" href="https://pantarei.co.il/he/"/>
