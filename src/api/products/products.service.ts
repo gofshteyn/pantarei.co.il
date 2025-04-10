@@ -3,6 +3,7 @@ import { Product } from './entities/product.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
 import { ProductsGroup } from '../products-groups/entities/products-group.entity';
+import { Price } from './entities/price.entity';
 
 @Injectable()
 export class ProductsService {
@@ -63,14 +64,13 @@ export class ProductsService {
   public async findAll(): Promise<Product[]> {
     const result = await this.prismaService.product.findMany({
       include: {
-        group: true,
-        prices: true
+        group: true
       },
       orderBy: {
         position: 'asc'
       }
     });
-        
+
     return result.map(product =>
       plainToInstance(Product, {
         ...product,

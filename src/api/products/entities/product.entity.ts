@@ -1,6 +1,7 @@
 import { Currency } from "@prisma/client";
-import { Exclude, Expose } from "class-transformer";
+import { Exclude, Expose, Type } from "class-transformer";
 import { ProductsGroup } from "src/api/products-groups/entities/products-group.entity";
+import { Price } from "./price.entity";
 
 export class Product {
 
@@ -35,11 +36,8 @@ export class Product {
     position: number;
 
     @Exclude()
-    prices: Array<{
-        price: number,
-        priceMode: string,
-        currency: Currency
-    }>
+    @Type(() => Price)
+    prices: Price[];
 
     @Expose()
     imageUrl: string;
