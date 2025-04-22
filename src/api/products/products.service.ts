@@ -87,10 +87,6 @@ export class ProductsService {
       return ({
       ...product,
       salesPrice,
-      // prices: product.prices.map(price => ({
-      //   ...price,
-      //   value: price.value ? Number(price.value) : null
-      // }))
       prices: undefined
     })});
 

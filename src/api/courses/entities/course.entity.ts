@@ -1,9 +1,11 @@
-import { Exclude, Expose } from "class-transformer";
+import { Exclude, Expose, Type } from "class-transformer";
 import { CourseFeature } from "./course-feature.entity";
 import { CourseInclusion } from "./course-inclusion.entity";
 import { CourseSuggestion } from "./course-suggestion.entity";
 import { Product } from "@prisma/client";
 import { Currency } from "src/api/currencies/entities/currency.entity";
+import { Price } from "src/api/products/entities/price.entity";
+import { CoursesGroup } from "src/api/courses-groups/entities/courses-group.entity";
 
 export class Course {
     @Expose()
@@ -18,6 +20,9 @@ export class Course {
         priceMode: string;
         currency: Currency
     }
+
+    @Expose()
+    group: CoursesGroup;
 
     @Exclude()
     courseGroupId: string;
@@ -72,4 +77,8 @@ export class Course {
 
     @Exclude()
     deletedAt: Date;
+
+    @Expose()
+    @Type(() => Price)
+    salesPrice: Price;
 }
