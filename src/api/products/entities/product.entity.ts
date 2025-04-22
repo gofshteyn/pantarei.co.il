@@ -30,14 +30,19 @@ export class Product {
     isService: boolean;
 
     @Expose()
+    @Type(() => ProductsGroup)
     group: ProductsGroup;
 
     @Expose()
     position: number;
 
-    @Exclude()
+    // @Expose()
+    // @Type(() => Price)
+    // prices: Price[];
+
+    @Expose()
     @Type(() => Price)
-    prices: Price[];
+    salesPrice: Price;
 
     @Expose()
     imageUrl: string;

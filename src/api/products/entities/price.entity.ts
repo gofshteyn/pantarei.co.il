@@ -1,14 +1,15 @@
-import { Transform } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
 import { Decimal } from '@prisma/client/runtime/library';
 
-const DecimalToNumber = ({ value }: { value: Decimal }) => {
-    if (!value) return null; // или return 0;
-    return value.toNumber(); // или .toString(), если нужно строковое значение
+const DecimalToNumber = ({ value }: { value?: Decimal | null }) => {
+    if (value === undefined || value === null) return null;
+    return Number(value);
 };
 
 export class Price {
     
+    @Expose()
     @Transform(DecimalToNumber)
-    price: number;
+    value: number;
 
 }

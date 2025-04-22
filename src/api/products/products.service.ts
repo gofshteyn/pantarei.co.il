@@ -2,8 +2,6 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Product } from './entities/product.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
-import { ProductsGroup } from '../products-groups/entities/products-group.entity';
-import { Price } from './entities/price.entity';
 
 @Injectable()
 export class ProductsService {
@@ -12,70 +10,90 @@ export class ProductsService {
 
   public async findAllLocalized(lang: string): Promise<Product[]> {
     const result = await this.findAll();
-    return result.map(item => {
-      
-      let locales: Record<string, string> = {};
-      let desctiptionLocales: Record<string, string> = {};
-      let groupDisplayNameLocales: Record<string, string> = {};
 
+    const parseLocales = (locales: any): Record<string, string> => {
       try {
-        
-        if (typeof item.displayNameLocales === 'string') {
-          locales = JSON.parse(item.displayNameLocales);
-        } else if (item.displayNameLocales && typeof item.displayNameLocales === 'object') {
-          locales = item.displayNameLocales as Record<string, string>;
-        };
-        
-        if (typeof item.descriptionLocales === 'string') {
-          desctiptionLocales = JSON.parse(item.descriptionLocales);
-        } else if (item.descriptionLocales && typeof item.descriptionLocales === 'object') {
-          desctiptionLocales = item.descriptionLocales as Record<string, string>;
-        };
-
-        if (item.group) {
-          if (typeof item.group.displayNameLocales === 'string') {
-            groupDisplayNameLocales = JSON.parse(item.group.displayNameLocales);
-          } else if (item.group.displayNameLocales && typeof item.group.displayNameLocales === 'object') {
-            groupDisplayNameLocales = item.group.displayNameLocales as Record<string, string>;
-          };   
-        };
-
+        if (typeof locales === 'string') {
+          return JSON.parse(locales);
+        } else if (locales && typeof locales === 'object') {
+          return locales as Record<string, string>;
+        }
+        return {};
       } catch (error) {
-        Logger.error(`Failed to parse products for product ${item.id}:`, error);
-      };
+        Logger.error(`Failed to parse locales:`, error);
+        return {};
+      }
+    };
 
-      const localizedGroup = item.group ? {
-        ...item.group,
-        displayName: groupDisplayNameLocales[lang] || item.group.displayName,
-        displayNameLocales: undefined
-      } : undefined;
+    return result.map(item => {
+
+      const productLocales = parseLocales(item.displayNameLocales);
+      const groupLocales = parseLocales(item.group?.displayNameLocales);
       
       return plainToInstance(Product, {
         ...item,
-        displayName: locales[lang] || item.displayName,
+        displayName: productLocales[lang] || item.displayName,
         displayNameLocales: undefined,
-        description: desctiptionLocales[lang] || item.descriptionLocales,
-        descriptionLocales: undefined,
-        group: localizedGroup
+        group: item.group ? {
+          ...item.group,
+          displayName: groupLocales[lang] || item.group.displayName,
+          displayNameLocales: undefined
+        } : null
       });
+
     });
   }
 
   public async findAll(): Promise<Product[]> {
+
+    const currentDate = new Date();
+    const defaultCurrency = await this.prismaService.currency.findFirst({
+      where: {
+        isDefault: true
+      }
+    });
+
     const result = await this.prismaService.product.findMany({
       include: {
-        group: true
+        group: true,
+        prices: {
+          select: {
+            value: true,
+            currencyId: true,
+            priceMode: true
+          },
+          where: {
+            currencyId: defaultCurrency.id,
+            priceType: 'sale',
+            startDate: { lte: currentDate },
+            endDate: { gte: currentDate }
+          },
+          take: 1
+        }
       },
       orderBy: {
         position: 'asc'
       }
     });
 
-    return result.map(product =>
-      plainToInstance(Product, {
-        ...product,
-        group: product.group ? plainToInstance(ProductsGroup, product.group) : null
-      })
-    );
+    const fixPrice = result.map(product => {
+
+      const salesPrice = product.prices.length > 0
+        ? {
+          ...product.prices[0],
+          value: product.prices[0].value ? Number(product.prices[0].value) : null
+        } : null
+      
+      return ({
+      ...product,
+      salesPrice,
+      // prices: product.prices.map(price => ({
+      //   ...price,
+      //   value: price.value ? Number(price.value) : null
+      // }))
+      prices: undefined
+    })});
+
+    return plainToInstance(Product, fixPrice);
   }
 }
