@@ -3,7 +3,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { plainToInstance } from 'class-transformer';
 import { Course } from './entities/course.entity';
 import { CoursesGroup } from '../courses-groups/entities/courses-group.entity';
-import { group } from 'console';
 import { PriceType } from '@prisma/client';
 
 @Injectable()
@@ -26,6 +25,7 @@ export class CoursesService {
         return {};
       }
     };
+    
     return result.map(item => {
       const courseLocales = parseLocales(item.displayNameLocales);
       const subtitleLocales = parseLocales(item.subtitleLocales);
