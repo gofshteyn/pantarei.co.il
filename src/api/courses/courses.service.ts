@@ -4,6 +4,7 @@ import { plainToInstance } from 'class-transformer';
 import { Course } from './entities/course.entity';
 import { CoursesGroup } from '../courses-groups/entities/courses-group.entity';
 import { group } from 'console';
+import { PriceType } from '@prisma/client';
 
 @Injectable()
 export class CoursesService {
@@ -69,7 +70,7 @@ export class CoursesService {
                 priceMode: true
               },
               where: {
-                priceType: 'sale',
+                priceType: PriceType.sale,
                 currencyId: defaultCurrency.id,
                 startDate: { lte: currentDate },
                 endDate: { gte: currentDate }
