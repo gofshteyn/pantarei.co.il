@@ -1,4 +1,4 @@
-
+TRUNCATE public.products;
 
 COPY public.products (id, code, display_name, display_name_locales, description, description_locales, "position", image_url, is_service, created_at, updated_at, deleted_at, product_group_id) FROM stdin;
 c37b1d3b-8f80-4402-855f-3747181bd1cf	\N	The sunken ship "Satil"	{"he": "הספינה הטבועה סאטיל", "ru": "Затопленный корабль Сатиль"}	\N	\N	1	\N	t	2025-03-19 17:01:01.944	\N	\N	7d61b062-d1e8-43df-9551-64f15eade67e
