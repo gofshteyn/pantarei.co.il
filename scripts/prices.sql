@@ -1,4 +1,4 @@
-TRUNCATE public.prices;
+TRUNCATE public.prices CASCADE;
 
 COPY public.prices (id, product_id, price, currency_id, start_date, end_date, comment, created_at, updated_at, deleted_at, price_mode, price_type) FROM stdin;
 d4e7a9b3-5c2f-48f1-9d8a-6b3c7e1f25a4	d4e7a9b3-5c2f-48f1-9d8a-6b3c7e1f25a4	200.00	ILS	2025-01-01 00:00:00	2030-12-31 00:00:00	\N	2025-03-24 07:06:55.024	\N	\N	exact	sale

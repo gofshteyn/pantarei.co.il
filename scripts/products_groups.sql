@@ -1,4 +1,4 @@
-TRUNCATE public.products_groups;
+TRUNCATE public.products_groups CASCADE;
 
 COPY public.products_groups (id, code, display_name, display_name_locales, "position", created_at, updated_at, deleted_at) FROM stdin;
 d3f450bf-b0c5-4361-98b8-7593d746c7dc	\N	Start Diving	{"he": "תתחיל לצלול", "ru": "Начни нырять"}	1	2025-03-19 09:44:45.813	\N	\N

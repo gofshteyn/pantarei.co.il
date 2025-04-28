@@ -1,4 +1,4 @@
-TRUNCATE public.locales;
+TRUNCATE public.locales CASCADE;
 
 COPY public.locales (language_id, is_default, created_at, updated_at, deleted_at) FROM stdin;
 en	t	2025-03-19 07:48:03.548	\N	\N

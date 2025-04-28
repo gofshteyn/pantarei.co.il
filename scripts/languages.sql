@@ -1,4 +1,4 @@
-TRUNCATE public.languages;
+TRUNCATE public.languages CASCADE;
 
 COPY public.languages (id, code, display_name, display_name_locales, image_url, created_at, updated_at, deleted_at) FROM stdin;
 en	\N	English	{"he": "אנגלית", "ru": "Английский"}	\N	2025-03-19 07:29:03.285	\N	\N
