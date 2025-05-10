@@ -80,9 +80,17 @@ export class ExcursionsService {
             ...excursion.product.prices[0],
             value: excursion.product.prices[0].value ? Number(excursion.product.prices[0].value) : null
           } : null;
+
+      const location = excursion.latitude && excursion.longitude ? {
+        latitude: Number(excursion.latitude),
+        longitude: Number(excursion.longitude)
+      } : null;
           
       return plainToInstance(Excursion, {
         ...excursion,
+        location,
+        latitude: undefined,
+        longitude: undefined,
         salesPrice,
         product: undefined
       });

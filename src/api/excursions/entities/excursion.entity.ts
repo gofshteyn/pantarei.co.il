@@ -46,6 +46,12 @@ export class Excursion {
     @Exclude()
     productId: string;
 
+    @Expose()
+    location: {
+        latitude?: number,
+        longitude?: number
+    }
+
     @Exclude()
     createdAt: Date;
 
